@@ -7,7 +7,7 @@
 
 [![Join the chat at https://gitter.im/Arquisoft/dashboard_i2b](https://badges.gitter.im/Arquisoft/dashboard_i2b.svg)](https://gitter.im/Arquisoft/dashboard_i2b?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Skeleton of participants module
+Dashboard project for team I2B2
 
 # Authors
 
