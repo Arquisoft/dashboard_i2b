@@ -17,7 +17,8 @@ public class MessageListener {
 
     @KafkaListener(topics = "exampleTopic")
     public void listen(String data) {
-        logger.info("New message received: \"" + data + "\"");
+        //logger.info("New message received: \"" + data + "\"");
+        System.out.println("Aquí está tu info: " + data);
     }
 
 
