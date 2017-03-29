@@ -1,5 +1,7 @@
 package kafka_random_producer;
 
+import domain.UserLoginData;
+import kafka_subsystem.TestContainer;
 import main.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,12 +26,10 @@ public class KafkaTest {
 
     @Test
     public void test() throws InterruptedException {
-        List<String> mensajes = new ArrayList<>();
-        for(int i = 0; i<10; i++){
-            mensajes.add("HOLA");
-        }
-        tester.sendTest("HOLA", 10);
+        List<UserLoginData> mensajes = new ArrayList<>();
+        mensajes.add(new UserLoginData("login", "password"));
+        tester.sendTest(mensajes.get(0), 10);
         Thread.sleep(1000);
-        assertEquals(mensajes, tester.getMessageList());
+        assertEquals(mensajes, TestContainer.getList());
     }
 }

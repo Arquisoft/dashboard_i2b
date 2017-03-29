@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"kafka_subsystem", "kafka_random_producer"})
+@ComponentScan({"kafka_subsystem", "kafka_random_producer", "domain"})
 public class Application {
 
     public static void main(String[] args) {

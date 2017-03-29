@@ -3,7 +3,6 @@ package domain;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import util.JasyptEncryptor;
 
 import java.util.Date;
 
@@ -35,7 +34,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password=encryptPass(password); 
+        this.password= password;
     }
 
     public User(String firstName, String lastName, String email,
@@ -122,7 +121,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = encryptPass(password);
+        this.password = password;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
@@ -136,9 +135,5 @@ public class User {
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
-    
-    private String encryptPass(String password){
-    	JasyptEncryptor encryptor = new JasyptEncryptor();
-        return encryptor.encryptPassword(password);
-    }
+
 }
