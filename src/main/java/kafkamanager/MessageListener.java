@@ -1,7 +1,9 @@
-package kafka_subsystem;
+package kafkamanager;
 
-import domain.UserLoginData;
+import dbmanagement.ProposalRepository;
+import domain.Proposal;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 
 import javax.annotation.ManagedBean;
@@ -12,12 +14,15 @@ import javax.annotation.ManagedBean;
 @ManagedBean
 public class MessageListener {
 
+    @Autowired
+    private ProposalRepository dat;
+
     private static final Logger logger = Logger.getLogger(MessageListener.class);
 
     @KafkaListener(topics = "exampleTopic")
-    public void listen(UserLoginData data) {
+    public void listen(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
-        TestContainer.add(data);
+        dat.insert(data);
     }
 
 

@@ -1,6 +1,5 @@
-package kafka_subsystem;
+package kafkamanager;
 
-import domain.UserLoginData;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +20,11 @@ import java.util.Map;
  */
 @Configuration
 @EnableKafka
-public class KafkaListenerFactory {
+public abstract class KafkaListenerFactory<T> {
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, UserLoginData>> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, UserLoginData> factory =
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, T>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, T> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
@@ -35,9 +33,9 @@ public class KafkaListenerFactory {
     }
 
     @Bean
-    public ConsumerFactory<String, UserLoginData> consumerFactory() {
+    public ConsumerFactory<String, T> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(),
-                null, new JsonDeserializer<>(UserLoginData.class));
+                null, new JsonDeserializer<>(getElementClass()));
     }
 
     @Bean
@@ -52,5 +50,7 @@ public class KafkaListenerFactory {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "es.uniovi");
         return props;
     }
+
+    protected abstract Class<T> getElementClass();
 
 }

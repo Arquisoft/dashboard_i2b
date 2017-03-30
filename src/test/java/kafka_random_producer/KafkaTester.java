@@ -1,6 +1,6 @@
 package kafka_random_producer;
 
-import domain.UserLoginData;
+import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class KafkaTester {
     @Autowired
     private KafkaProducer producer;
 
-    public void sendTest(UserLoginData data, int times){
+    public void sendTestProposal(Proposal data){
         producer.send("exampleTopic", data);
     }
 

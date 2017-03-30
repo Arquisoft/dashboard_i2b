@@ -1,6 +1,6 @@
 package kafka_random_producer;
 
-import domain.UserLoginData;
+import domain.Proposal;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,13 +19,13 @@ public class KafkaProducer {
     private static final Logger logger = Logger.getLogger(KafkaProducer.class);
 
     @Autowired
-    private KafkaTemplate<String, UserLoginData> kafkaTemplate;
+    private KafkaTemplate<String, Proposal> kafkaTemplate;
 
-    public void send(String topic, UserLoginData data) {
-        ListenableFuture<SendResult<String, UserLoginData>> future = kafkaTemplate.send(topic, data);
-        future.addCallback(new ListenableFutureCallback<SendResult<String, UserLoginData>>() {
+    public void send(String topic, Proposal data) {
+        ListenableFuture<SendResult<String, Proposal>> future = kafkaTemplate.send(topic, data);
+        future.addCallback(new ListenableFutureCallback<SendResult<String, Proposal>>() {
             @Override
-            public void onSuccess(SendResult<String, UserLoginData> result) {
+            public void onSuccess(SendResult<String, Proposal> result) {
                 logger.info("Success on sending message \"" + data + "\" to topic " + topic);
             }
 
