@@ -2,6 +2,7 @@ package domain;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +19,16 @@ public class Proposal {
     private String category;
     private int votes;
     private List<String> votedUsernames;
+
+    @DBRef
     private List<Comment> comments;
     private int minimalSupport;
     private String author;
     private Date created;
+
+    public Proposal(){
+
+    }
 
     public Proposal(String category, int minimalSupport){
         this.category = category;
@@ -29,6 +36,10 @@ public class Proposal {
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.minimalSupport = minimalSupport;
+    }
+
+    public ObjectId get_id() {
+        return _id;
     }
 
     public void setCategory(String category) {
@@ -39,12 +50,24 @@ public class Proposal {
         this.votes = votes;
     }
 
+    public void setVotedUsernames(List<String> votedUsernames) {
+        this.votedUsernames = votedUsernames;
+    }
+
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
     public void setMinimalSupport(int minimalSupport) {
         this.minimalSupport = minimalSupport;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public String getCategory() {
@@ -55,6 +78,10 @@ public class Proposal {
         return votes;
     }
 
+    public List<String> getVotedUsernames() {
+        return votedUsernames;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -63,15 +90,35 @@ public class Proposal {
         return minimalSupport;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
     public boolean isSupported(){
         return getVotes() > getMinimalSupport();
     }
 
-    public List<String> getVotedUsernames() {
-        return votedUsernames;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Proposal proposal = (Proposal) o;
+
+        if (category != null ? !category.equals(proposal.category) : proposal.category != null) return false;
+        if (author != null ? !author.equals(proposal.author) : proposal.author != null) return false;
+        return created != null ? created.equals(proposal.created) : proposal.created == null;
     }
 
-    public ObjectId getId() {
-        return _id;
+    @Override
+    public int hashCode() {
+        int result = category != null ? category.hashCode() : 0;
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (created != null ? created.hashCode() : 0);
+        return result;
     }
 }

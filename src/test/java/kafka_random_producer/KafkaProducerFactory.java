@@ -1,6 +1,6 @@
 package kafka_random_producer;
 
-import domain.UserLoginData;
+import domain.Proposal;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class KafkaProducerFactory {
 
     @Bean
-    public ProducerFactory<String, UserLoginData> producerFactory() {
+    public ProducerFactory<String, Proposal> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
@@ -40,7 +40,7 @@ public class KafkaProducerFactory {
     }
 
     @Bean
-    public KafkaTemplate<String, UserLoginData> kafkaTemplate() {
+    public KafkaTemplate<String, Proposal> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

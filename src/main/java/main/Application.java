@@ -4,9 +4,11 @@ package main;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@ComponentScan({"kafka_subsystem", "kafka_random_producer", "domain"})
+@EnableMongoRepositories("dbmanagement")
+@ComponentScan({"kafkamanager", "kafka_random_producer", "domain", "dbmanagement"})
 public class Application {
 
     public static void main(String[] args) {
