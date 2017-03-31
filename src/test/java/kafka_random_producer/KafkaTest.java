@@ -34,4 +34,16 @@ public class KafkaTest {
         assertEquals(test, proposal);
         repo.delete(test);
     }
+
+    @Test
+    public void loopingTest() throws InterruptedException{
+        int number =0;
+        while(number<10){
+            Proposal proposal = new Proposal("Test Proposals", 50);
+            proposal.setAuthor("Autor prueba");
+            tester.sendTestProposal(proposal);
+            Thread.sleep(10000);
+            number++;
+        }
+    }
 }

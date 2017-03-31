@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dashboard</title>
+    <script>
+        function patch(){
+            var request = new XMLHttpRequest();
+            request.open('PATCH', '/', true);
+            request.send(null);
+        }
+        setTimeout(patch(), 3000);
+    </script>
+</head>
+<body>
+    <div id="div_contenedor">
+        <label>nº of participants in the system:</label>
+        <p th:text="${part.amount}">desu</p>
+
+        <label>nº of proposals in the system:</label>
+        <p th:text="${prop.amount}">desu</p>
+
+        <label>nº of comments in the system:</label>
+        <p th:text="${comm.amount}">desu</p>
+
+        <label>Please update:</label>
+        <p th:text="${amount}">desu</p>
+    </div>
+
+</body>
+</html>

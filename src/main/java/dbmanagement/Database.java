@@ -1,6 +1,8 @@
 package dbmanagement;
 
 import domain.Comment;
+import domain.Participant;
+
 import domain.Proposal;
 import java.util.*;
 
@@ -9,7 +11,7 @@ import java.util.*;
  */
 
 public interface Database {
-
-    public List<Proposal> getProposals();
-    public List<Comment> getComments();
+    List<Participant> getParticipants();
+    List<Proposal> getProposals();
+    List<Comment> getComments();
 }

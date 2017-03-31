@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 @Document(collection ="users")
-public class User {
+public class Participant {
 
     @Id
     private ObjectId id;
@@ -26,19 +26,19 @@ public class User {
     private String userId;
 
 
-    User(){
+    Participant(){
 
     }
 
-    public User(String firstName, String lastName, String email, String password) {
+    public Participant(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password= password;
     }
 
-    public User(String firstName, String lastName, String email,
-                String password, Date dateOfBirth, String address, String nationality, String userId) {
+    public Participant(String firstName, String lastName, String email,
+                       String password, Date dateOfBirth, String address, String nationality, String userId) {
         this(firstName, lastName, email, password);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
@@ -48,7 +48,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Participant{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -65,7 +65,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        Participant user = (Participant) o;
 
         return userId.equals(user.userId);
 

@@ -14,7 +14,7 @@ public class KafkaTester {
     private KafkaProducer producer;
 
     public void sendTestProposal(Proposal data){
-        producer.send("exampleTopic", data);
+        producer.send("proposal", data);
     }
 
 }
