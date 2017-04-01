@@ -19,7 +19,7 @@ public class ParticipantsProcessor implements Processor{
     //public Map<String, List<Double>> statistics = new HashMap<String, List<Double>>();
     //public Map<String, Object> statistics = new HashMap<String, Object>(); //Esto fuerza a un cast quizas mejor pensar otra cosa...
 
-    private Long amount;
+    public Long amount;
     private Map<String,Long> ageAgrupation;
 
     //Quizas es mejor cambiar la estructura de forma que cad método devuelva lo que tiene que devolver y se use en el dashboard,

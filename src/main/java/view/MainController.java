@@ -1,6 +1,7 @@
 package view;
 
 
+import com.esotericsoftware.minlog.Log;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import statisticsCalculator.ProposalsProcessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 @Controller
 public class MainController {
@@ -54,7 +54,8 @@ public class MainController {
 
     @PatchMapping("/")
     public String update(Model model){
-        model.addAttribute("amount", propProc.getAmount());
+        Log.info("Patch request received, updating...");
+        model.asMap().replace("amount", propProc.getAmount());
         return "dashboard";
     }
 }
