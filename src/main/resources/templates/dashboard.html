@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Dashboard</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         function patch(){
             var request = new XMLHttpRequest();
             request.open('PATCH', '/', true);
             request.send(null);
+            $("#div_contenedor").load(location.href + " #div_contenedor");
         }
-        setTimeout(patch(), 3000);
+        setInterval(patch, 3000);
     </script>
 </head>
 <body>
@@ -22,9 +24,6 @@
 
         <label>nº of comments in the system:</label>
         <p th:text="${comm.amount}">desu</p>
-
-        <label>Please update:</label>
-        <p th:text="${amount}">desu</p>
     </div>
 
 </body>

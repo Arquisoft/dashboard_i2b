@@ -5,8 +5,6 @@ import domain.Proposal;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import statisticsCalculator.CommentsProcessor;
-import statisticsCalculator.Processor;
 import statisticsCalculator.ProposalsProcessor;
 
 import javax.annotation.ManagedBean;

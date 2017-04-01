@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 @ContextConfiguration
 @SpringBootTest(classes = Application.class)
-public class MyStepdefs {
+public class EventSteps {
 
     @Autowired
     private KafkaTester tester;
