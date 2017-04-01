@@ -1,26 +1,38 @@
 package statisticsCalculator;
 
+import dbmanagement.Agrupations.ParticipantLocalization;
 import dbmanagement.ParticipantsRepository;
+import dbmanagement.ParticipantsRepositoryCustom;
+import dbmanagement.ParticipantsRepositoryCustomImpl;
+import domain.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.mapreduce.GroupByResults;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Jorge on 28/03/2017.
  */
 @Service
+@Scope("singleton")
 public class ParticipantsProcessor implements Processor{
 
     @Autowired
     private ParticipantsRepository dat;
 
+    @Autowired
+    private ParticipantsRepositoryCustom datCust;
+
     //public Map<String, List<Double>> statistics = new HashMap<String, List<Double>>();
     //public Map<String, Object> statistics = new HashMap<String, Object>(); //Esto fuerza a un cast quizas mejor pensar otra cosa...
 
     public Long amount;
-    private Map<String,Long> ageAgrupation;
+    //private Map<String,Long> ageAgrupation;
+    public List<ParticipantLocalization> nationAgrup;
 
     //Quizas es mejor cambiar la estructura de forma que cad método devuelva lo que tiene que devolver y se use en el dashboard,
     //Sino el usuario tiene que saber como castear las cosas.
@@ -30,12 +42,29 @@ public class ParticipantsProcessor implements Processor{
         amount++;
     }
 
+    public void Update(Participant participant){
+        amount++;
+        boolean found=false;
+        String nationality = participant.getNationality();
+        for(ParticipantLocalization partLoc : nationAgrup){
+            if(nationality.equals(partLoc.getNationality())){
+                partLoc.setAmount(partLoc.getAmount()+1);
+                found=true;
+            }
+        }
+        if(!found){
+            nationAgrup.add(new ParticipantLocalization(nationality,1));
+        }
+
+    }
+
 
     @Autowired
-    public ParticipantsProcessor(ParticipantsRepository dat){
+    public ParticipantsProcessor(ParticipantsRepository dat, ParticipantsRepositoryCustomImpl datCust){
         this.dat=dat;
         amount= dat.count();
-        Map<String,Long> ageAgrupation = new HashMap<>(); //Aqui con consulta
+        nationAgrup = datCust.getParticipantsGroupByNationality();
+
     }
 
     public Long getAmount() {

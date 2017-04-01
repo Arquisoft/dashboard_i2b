@@ -4,6 +4,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -26,7 +28,7 @@ public class Participant {
     private String userId;
 
 
-    Participant(){
+    public Participant(){
 
     }
 
@@ -107,6 +109,11 @@ public class Participant {
     public String getUserId() {
         return userId;
     }
+
+    public Long getAge(){
+        LocalDate birth = LocalDate.of(dateOfBirth.getYear(),dateOfBirth.getMonth(),dateOfBirth.getDay());
+        LocalDate now = LocalDate.now();
+        return ChronoUnit.YEARS.between(birth,now);}
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

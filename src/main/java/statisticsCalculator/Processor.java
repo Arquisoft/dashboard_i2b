@@ -1,5 +1,7 @@
 package statisticsCalculator;
 
+import domain.Proposal;
+
 /**
  * Created by Jorge on 28/03/2017.
  *
@@ -8,4 +10,5 @@ package statisticsCalculator;
 public interface Processor {
 
     void Update();
+
 }

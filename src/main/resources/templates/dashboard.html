@@ -24,6 +24,30 @@
 
         <label>nº of comments in the system:</label>
         <p th:text="${comm.amount}">desu</p>
+
+        <label>Top 5 voted proposals: </label>
+        <table>
+            <tr>
+                <th>Author</th>
+                <th>Votes</th>
+            </tr>
+            <tr th:each="proposal : ${prop.topVotes}">
+                <td th:text="${proposal.author}"> author</td>
+                <td th:text="${proposal.votes}"> votes</td>
+            </tr>
+        </table>
+
+        <label>Participants by nationality: </label>
+        <table>
+            <tr>
+                <th>Nationality</th>
+                <th>Amount</th>
+            </tr>
+            <tr th:each="localizationData : ${part.nationAgrup}">
+                <td th:text="${localizationData.nationality}"> author</td>
+                <td th:text="${localizationData.amount}"> votes</td>
+            </tr>
+        </table>
     </div>
 
 </body>

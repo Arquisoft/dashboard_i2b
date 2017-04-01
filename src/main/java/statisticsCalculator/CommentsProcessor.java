@@ -12,9 +12,6 @@ import org.springframework.stereotype.Service;
 @Scope(scopeName = "singleton")
 public class CommentsProcessor implements Processor{
 
-    @Autowired
-    private ParticipantsRepository dat;
-
     private Long amount;
 
     @Override
@@ -24,8 +21,7 @@ public class CommentsProcessor implements Processor{
 
     @Autowired
     public CommentsProcessor( ParticipantsRepository dat){
-        this.dat=dat;
-        amount = dat.count();
+        amount = new Long(0);
     }
 
     public Long getAmount() {

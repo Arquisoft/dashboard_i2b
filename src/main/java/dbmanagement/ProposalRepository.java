@@ -2,6 +2,8 @@ package dbmanagement;
 
 import domain.Proposal;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +17,11 @@ import java.util.List;
 public interface ProposalRepository extends MongoRepository<Proposal, ObjectId> {
 
     List<Proposal> findByAuthor(String autor);
+
     Proposal findByAuthorAndCategoryAndCreated(String author, String category, Date created);
+
+
+    List<Proposal> findTop5ByOrderByVotesDesc();
 
     long count();
 }

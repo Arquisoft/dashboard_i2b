@@ -16,4 +16,7 @@ public interface ParticipantsRepository extends MongoRepository<Participant, Obj
     List<Participant> findByEmail(String email);
 
     long count();
+
+    List<Participant> findByAgeBetween(int from, int to);
+
 }
