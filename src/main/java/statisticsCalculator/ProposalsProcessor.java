@@ -3,28 +3,36 @@ package statisticsCalculator;
 import dbmanagement.ProposalRepository;
 import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Jorge on 28/03/2017.
  */
 @Service
-@Scope("singleton")
 public class ProposalsProcessor implements Processor{
-
-
-    //public Map<String, Object> statistics = new HashMap<String, Object>();
 
     @Autowired
     private ProposalRepository dat;
 
     private Long amount;
     private List<Proposal> topVotes;
+
+    @Autowired
+    public ProposalsProcessor(ProposalRepository dat){
+        this.dat = dat;
+        amount = dat.count();
+        topVotes = dat.findTop5ByOrderByVotesDesc();
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public List<Proposal> getTopVotes() {
+        return topVotes;
+    }
 
     @Override
     public void Update() {
@@ -42,27 +50,7 @@ public class ProposalsProcessor implements Processor{
             topVotes.add(position, data);
             topVotes.remove(5); //Quitamos el ultimo
         }
-
     }
-
-    ;
-
-    @Autowired
-    public ProposalsProcessor(ProposalRepository dat){
-        this.dat=dat;
-        amount = dat.count();
-        topVotes = dat.findTop5ByOrderByVotesDesc();
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public List<Proposal> getTopVotes() {
-        return topVotes;
-    }
-
-
     /*
         Ideas:
             Amount of Proposals

@@ -6,19 +6,14 @@ import dbmanagement.ParticipantsRepositoryCustom;
 import dbmanagement.ParticipantsRepositoryCustomImpl;
 import domain.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.mapreduce.GroupByResults;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Jorge on 28/03/2017.
  */
 @Service
-@Scope("singleton")
 public class ParticipantsProcessor implements Processor{
 
     @Autowired
@@ -28,13 +23,15 @@ public class ParticipantsProcessor implements Processor{
     private ParticipantsRepositoryCustom datCust;
 
     //public Map<String, List<Double>> statistics = new HashMap<String, List<Double>>();
-    //public Map<String, Object> statistics = new HashMap<String, Object>(); //Esto fuerza a un cast quizas mejor pensar otra cosa...
+    //public Map<String, Object> statistics = new HashMap<String, Object>();
+    // Esto fuerza a un cast quizas mejor pensar otra cosa...
 
     public Long amount;
     //private Map<String,Long> ageAgrupation;
     public List<ParticipantLocalization> nationAgrup;
 
-    //Quizas es mejor cambiar la estructura de forma que cad método devuelva lo que tiene que devolver y se use en el dashboard,
+    //Quizas es mejor cambiar la estructura de forma que cad método devuelva
+    //lo que tiene que devolver y se use en el dashboard,
     //Sino el usuario tiene que saber como castear las cosas.
     @Override
     public void Update() {

@@ -1,9 +1,6 @@
 package dbmanagement;
 
 import dbmanagement.Agrupations.ParticipantLocalization;
-import domain.Participant;
-import domain.Proposal;
-import org.springframework.data.mongodb.core.mapreduce.GroupByResults;
 
 import java.util.List;
 

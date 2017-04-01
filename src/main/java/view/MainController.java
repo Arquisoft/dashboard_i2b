@@ -8,20 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import statisticsCalculator.CommentsProcessor;
 import statisticsCalculator.ParticipantsProcessor;
 import statisticsCalculator.ProposalsProcessor;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Controller
 public class MainController {
 
     private static final Logger logger = Logger.getLogger(MainController.class);
-    private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
 
     //References to the different processors.
     //MEJOR HACERLOS SINGLETONS SI LOS HACEMOS ASÍ
@@ -55,7 +49,9 @@ public class MainController {
     @PatchMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.asMap().replace("amount", propProc.getAmount());
+        model.asMap().replace("prop", propProc);
+        model.asMap().replace("comm", comProc);
+        model.asMap().replace("part", parProc);
         return "dashboard";
     }
 }

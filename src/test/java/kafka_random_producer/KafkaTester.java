@@ -12,15 +12,16 @@ import org.springframework.stereotype.Service;
 public class KafkaTester {
 
     @Autowired
-    private KafkaProducer producer;
+    private ProposalKafkaProducer producer;
     @Autowired
-    private KafkaProducerParti partiProducer;
+    private ParticipantsKafkaProducer partiProducer;
 
     public void sendTestProposal(Proposal data){
         producer.send("proposal", data);
     }
 
 
-    public void sendTestParticipant(Participant participant) { partiProducer.send("participant", participant);
+    public void sendTestParticipant(Participant participant) {
+        partiProducer.send("participant", participant);
     }
 }
