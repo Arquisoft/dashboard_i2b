@@ -48,6 +48,17 @@
                 <td th:text="${localizationData.amount}"> votes</td>
             </tr>
         </table>
+        <label>Most Commented Proposals: </label>
+        <table>
+            <tr>
+                <th>Author</th>
+                <th>Amount</th>
+            </tr>
+            <tr th:each="proposalData : ${prop.topCommented}">
+                <td th:text="${proposalData.author}"> author</td>
+                <td th:text="${proposalData.amountComments}"> votes</td>
+            </tr>
+        </table>
     </div>
 
 </body>

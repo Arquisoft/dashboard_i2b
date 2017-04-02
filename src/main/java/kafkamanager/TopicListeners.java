@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import statisticsCalculator.ParticipantsProcessor;
+import statisticsCalculator.Processor;
 import statisticsCalculator.ProposalsProcessor;
 
 import javax.annotation.ManagedBean;
@@ -21,14 +22,12 @@ public class TopicListeners {
     @Autowired
     private ProposalRepository dat;
 
-    @Autowired
-    private ProposalsProcessor proc;
 
     @Autowired
     private ParticipantsRepository partiDat;
 
     @Autowired
-    private ParticipantsProcessor partiProc;
+    private Processor proc;
 
     private static final Logger logger = Logger.getLogger(TopicListeners.class);
 
@@ -36,13 +35,13 @@ public class TopicListeners {
     public void listen(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
         dat.insert(data);
-        proc.Update(data);
+        proc.update(data);
     }
 
     @KafkaListener(topics = "participant", containerFactory = "participantContainerFactory")
     public void listen(Participant data){
         logger.info("New participant recieved!!!");
         partiDat.insert(data);
-        partiProc.Update(data);
+        proc.update(data);
     }
 }

@@ -2,6 +2,7 @@ package domain;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class Participant {
     private String address;
     private String nationality;
     private String userId;
+
 
 
     public Participant(){
@@ -110,6 +112,7 @@ public class Participant {
     public String getUserId() {
         return userId;
     }
+
 
     public Long getAge(){
         Calendar cal=Calendar.getInstance();

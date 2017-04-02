@@ -1,5 +1,9 @@
 package statisticsCalculator;
 
+import domain.Comment;
+import domain.Participant;
+import domain.Proposal;
+
 /**
  * Created by Jorge on 28/03/2017.
  *
@@ -7,6 +11,8 @@ package statisticsCalculator;
  */
 public interface Processor {
 
-    void Update();
+    void update(Participant data);
+    void update(Proposal data);
+    void update(Comment data);
 
 }

@@ -15,5 +15,6 @@ import java.util.List;
 public interface CommentRepository extends MongoRepository<Comment, ObjectId>{
 
     List<Comment> findByProposal(Proposal prop);
+
     long count();
 }

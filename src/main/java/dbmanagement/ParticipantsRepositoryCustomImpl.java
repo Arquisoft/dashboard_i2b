@@ -28,18 +28,6 @@ public class ParticipantsRepositoryCustomImpl implements ParticipantsRepositoryC
     }
 
 
-    public List<ParticipantLocalization> getParticipantsGroupByNationality2() {
-        Aggregation agg = Aggregation.newAggregation(Aggregation.group("nationality").count().as("amount"),
-                          Aggregation.project("nationality").and("amount").previousOperation(),
-                          Aggregation.sort(Sort.Direction.DESC, "amount"));
-
-        //Defining the aggregation (agregation, input,output)
-        AggregationResults<ParticipantLocalization> groupParticipants =
-                mongoTemplate.aggregate(agg, Participant.class,ParticipantLocalization.class);
-
-        return groupParticipants.getMappedResults();
-    }
-
     @Override
     public List<ParticipantLocalization> getParticipantsGroupByNationality() {
         GroupByResults<ParticipantLocalization> results =
