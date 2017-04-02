@@ -7,7 +7,7 @@ public class ParticipantLocalization {
 
     private String nationality;
 
-    private  long amount;
+    private long amount;
 
     public ParticipantLocalization(String nationality, long amount){
         this.nationality=nationality;

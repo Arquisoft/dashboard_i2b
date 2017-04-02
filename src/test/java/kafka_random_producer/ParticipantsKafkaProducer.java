@@ -1,6 +1,6 @@
 package kafka_random_producer;
 
-import domain.Proposal;
+import domain.Participant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,21 +11,21 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import javax.annotation.ManagedBean;
 
 /**
- * Created by Nicolás on 26/03/2017.
+ * Created by Jorge on 01/04/2017.
  */
 @ManagedBean
-public class KafkaProducer {
+public class ParticipantsKafkaProducer {
 
-    private static final Logger logger = Logger.getLogger(KafkaProducer.class);
+    private static final Logger logger = Logger.getLogger(ProposalKafkaProducer.class);
 
     @Autowired
-    private KafkaTemplate<String, Proposal> kafkaTemplate;
+    private KafkaTemplate<String, Participant> kafkaTemplate;
 
-    public void send(String topic, Proposal data) {
-        ListenableFuture<SendResult<String, Proposal>> future = kafkaTemplate.send(topic, data);
-        future.addCallback(new ListenableFutureCallback<SendResult<String, Proposal>>() {
+    public void send(String topic, Participant data) {
+        ListenableFuture<SendResult<String, Participant>> future = kafkaTemplate.send(topic, data);
+        future.addCallback(new ListenableFutureCallback<SendResult<String, Participant>>() {
             @Override
-            public void onSuccess(SendResult<String, Proposal> result) {
+            public void onSuccess(SendResult<String, Participant> result) {
                 logger.info("Success on sending message \"" + data + "\" to topic " + topic);
             }
 
@@ -35,5 +35,4 @@ public class KafkaProducer {
             }
         });
     }
-
 }

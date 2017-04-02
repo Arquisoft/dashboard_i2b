@@ -1,7 +1,5 @@
 package statisticsCalculator;
 
-import domain.Proposal;
-
 /**
  * Created by Jorge on 28/03/2017.
  *

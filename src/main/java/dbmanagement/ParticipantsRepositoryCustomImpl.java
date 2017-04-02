@@ -19,6 +19,7 @@ import java.util.List;
  */
 @Service
 public class ParticipantsRepositoryCustomImpl implements ParticipantsRepositoryCustom {
+
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -29,26 +30,27 @@ public class ParticipantsRepositoryCustomImpl implements ParticipantsRepositoryC
 
     public List<ParticipantLocalization> getParticipantsGroupByNationality2() {
         Aggregation agg = Aggregation.newAggregation(Aggregation.group("nationality").count().as("amount"),
-                                                        Aggregation.project("nationality").and("amount").previousOperation(),
-                                                        Aggregation.sort(Sort.Direction.DESC, "amount"));
+                          Aggregation.project("nationality").and("amount").previousOperation(),
+                          Aggregation.sort(Sort.Direction.DESC, "amount"));
 
         //Defining the aggregation (agregation, input,output)
-        AggregationResults<ParticipantLocalization> groupParticipants = mongoTemplate.aggregate(agg, Participant.class,ParticipantLocalization.class);
+        AggregationResults<ParticipantLocalization> groupParticipants =
+                mongoTemplate.aggregate(agg, Participant.class,ParticipantLocalization.class);
 
-        List<ParticipantLocalization> result = groupParticipants.getMappedResults();
-
-        return result;
+        return groupParticipants.getMappedResults();
     }
 
     @Override
     public List<ParticipantLocalization> getParticipantsGroupByNationality() {
-        GroupByResults<ParticipantLocalization> results = mongoTemplate.group("users", GroupBy.key("nationality").initialDocument("{ amount: 0}").reduceFunction("function(doc,prev) {prev.amount +=1 }"),ParticipantLocalization.class);
+        GroupByResults<ParticipantLocalization> results =
+                mongoTemplate.group("users",
+                        GroupBy.key("nationality").initialDocument("{ amount: 0}")
+                                .reduceFunction("function(doc,prev) {prev.amount +=1 }"),ParticipantLocalization.class);
         List<ParticipantLocalization> resultingList = new ArrayList<ParticipantLocalization>();
         //There is no other way to turn a GroupByResults
         for(ParticipantLocalization partLoc : results){
             resultingList.add(partLoc);
         }
-
         return resultingList;
     }
 }
