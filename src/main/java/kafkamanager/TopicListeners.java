@@ -16,34 +16,33 @@ import javax.annotation.ManagedBean;
  * Created by herminio on 28/12/16.
  */
 @ManagedBean
-public class MessageListener {
+public class TopicListeners {
 
     @Autowired
     private ProposalRepository dat;
+
+    @Autowired
+    private ProposalsProcessor proc;
+
     @Autowired
     private ParticipantsRepository partiDat;
 
     @Autowired
-    private ProposalsProcessor proc;
-    @Autowired
     private ParticipantsProcessor partiProc;
 
-    private static final Logger logger = Logger.getLogger(MessageListener.class);
+    private static final Logger logger = Logger.getLogger(TopicListeners.class);
 
-    @KafkaListener(topics = "proposal")
+    @KafkaListener(topics = "proposal", containerFactory = "proposalContainerFactory")
     public void listen(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
         dat.insert(data);
         proc.Update(data);
     }
 
-    @KafkaListener(topics = "participant")
+    @KafkaListener(topics = "participant", containerFactory = "participantContainerFactory")
     public void listen(Participant data){
         logger.info("New participant recieved!!!");
         partiDat.insert(data);
         partiProc.Update(data);
     }
-
-
-
 }
