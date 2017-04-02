@@ -62,7 +62,7 @@ public class KafkaTest {
             Thread.sleep(5000);
         }
     }
-    //@Test
+    @Test
     public void loopingTestParticipants() throws InterruptedException{
         String[] natTemplate ={"Spain","Canada","EEUU","Chile","Mexico","France","Ireland","Portugal","Alaska"};
         Random rnd = new Random();
