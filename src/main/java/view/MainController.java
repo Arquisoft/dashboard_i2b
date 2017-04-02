@@ -49,13 +49,12 @@ public class MainController {
         return propProc;
     }
 
-    @GetMapping("/")
+    @PatchMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.addAttribute("prop", propProc);
-        model.addAttribute("comm", comProc);
-        model.addAttribute("part", parProc);
-        model.addAttribute("voteList", propProc.getTopVotes());
-        return "dashboard :: #div_contenedor";
+        model.asMap().replace("prop", propProc);
+        model.asMap().replace("comm", comProc);
+        model.asMap().replace("part", parProc);
+        return "dashboard";
     }
 }

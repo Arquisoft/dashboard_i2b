@@ -45,10 +45,11 @@ public class ProposalsProcessor implements Processor{
     }
 
     private void updateTopVotes(Proposal data) {
-        int position =(int) (5 - topVotes.stream().filter(element-> element.getVotes()<data.getVotes()).count());
+        int position =(int) (topVotes.size() - topVotes.stream().filter(element-> element.getVotes()<data.getVotes()).count());
         if(position<5) {
             topVotes.add(position, data);
-            topVotes.remove(5); //Quitamos el ultimo
+            if(topVotes.size()==5)
+                topVotes.remove(topVotes.size() - 1); //Quitamos el ultimo
         }
     }
     /*

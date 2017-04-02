@@ -6,15 +6,16 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         function patch(){
-              $( this ).load( "/ #div_contenedor");
+            var request = new XMLHttpRequest();
+            request.open('PATCH', '/', true);
+            request.send(null);
+            $("#div_contenedor").load(location.href + " #div_contenedor");
         }
-        function set(){
-            setInterval(patch, 3000);
-        }
+        setInterval(patch, 3000);
     </script>
 </head>
 <body>
-    <div id="div_contenedor" th:fragment="dataTable" onload="set">
+    <div id="div_contenedor">
         <label>nº of participants in the system:</label>
         <p th:text="${part.amount}">desu</p>
 
