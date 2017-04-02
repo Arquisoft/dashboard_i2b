@@ -6,16 +6,15 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         function patch(){
-            var request = new XMLHttpRequest();
-            request.open('PATCH', '/', true);
-            request.send(null);
-            $("#div_contenedor").load(location.href + " #div_contenedor");
+              $( this ).load( "/ #div_contenedor");
         }
-        setInterval(patch, 3000);
+        function set(){
+            setInterval(patch, 3000);
+        }
     </script>
 </head>
 <body>
-    <div id="div_contenedor">
+    <div id="div_contenedor" th:fragment="dataTable" onload="set">
         <label>nº of participants in the system:</label>
         <p th:text="${part.amount}">desu</p>
 
@@ -25,20 +24,20 @@
         <label>nº of comments in the system:</label>
         <p th:text="${comm.amount}">desu</p>
 
-        <label>Top 5 voted proposals: </label>
-        <table>
+        <h3>Top 5 voted proposals: </h3>
+        <table id="votedProposals">
             <tr>
                 <th>Author</th>
                 <th>Votes</th>
             </tr>
-            <tr th:each="proposal : ${prop.topVotes}">
+            <tr th:each="proposal : ${voteList}">
                 <td th:text="${proposal.author}"> author</td>
                 <td th:text="${proposal.votes}"> votes</td>
             </tr>
         </table>
 
         <label>Participants by nationality: </label>
-        <table>
+        <table id="nationalityTable">
             <tr>
                 <th>Nationality</th>
                 <th>Amount</th>

@@ -30,6 +30,14 @@ public class ParticipantsProcessor implements Processor{
     //private Map<String,Long> ageAgrupation;
     public List<ParticipantLocalization> nationAgrup;
 
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
     //Quizas es mejor cambiar la estructura de forma que cad método devuelva
     //lo que tiene que devolver y se use en el dashboard,
     //Sino el usuario tiene que saber como castear las cosas.
@@ -62,14 +70,6 @@ public class ParticipantsProcessor implements Processor{
         amount= dat.count();
         nationAgrup = datCust.getParticipantsGroupByNationality();
 
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
     }
 
     /*

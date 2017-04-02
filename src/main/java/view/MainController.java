@@ -8,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import statisticsCalculator.CommentsProcessor;
 import statisticsCalculator.ParticipantsProcessor;
 import statisticsCalculator.ProposalsProcessor;
 
+@EnableWebMvc
 @Controller
 public class MainController {
 
@@ -28,6 +30,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String landing(Model model) {
+        model.addAttribute("voteList", propProc.getTopVotes());
         return "dashboard";
     }
 
@@ -46,12 +49,13 @@ public class MainController {
         return propProc;
     }
 
-    @PatchMapping("/")
+    @GetMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.asMap().replace("prop", propProc);
-        model.asMap().replace("comm", comProc);
-        model.asMap().replace("part", parProc);
-        return "dashboard";
+        model.addAttribute("prop", propProc);
+        model.addAttribute("comm", comProc);
+        model.addAttribute("part", parProc);
+        model.addAttribute("voteList", propProc.getTopVotes());
+        return "dashboard :: #div_contenedor";
     }
 }

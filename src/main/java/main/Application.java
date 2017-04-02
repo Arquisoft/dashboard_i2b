@@ -11,9 +11,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @ComponentScan({"view", "kafkamanager", "kafka_random_producer", "domain", "dbmanagement","main","statisticsCalculator"})
 public class Application {
 
-    private String algo;
-
-
     public static void main(String[] args) {
     	SpringApplication.run(Application.class, args);
 
