@@ -1,5 +1,6 @@
 package kafkamanager;
 
+import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import org.springframework.context.annotation.Bean;
@@ -49,5 +50,21 @@ public class KafkaListenerFactory {
     public ConsumerFactory<String, Proposal> consumerProposalFactory() {
         return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerConfig(),
                 null, new JsonDeserializer<>(Proposal.class));
+    }
+
+    @Bean(name = "commentContainerFactory")
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Comment>> commentContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Comment> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerCommentFactory());
+        factory.setConcurrency(3);
+        factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, Comment> consumerCommentFactory() {
+        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerConfig(),
+                null, new JsonDeserializer<>(Comment.class));
     }
 }

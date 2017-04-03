@@ -1,15 +1,15 @@
 package kafkamanager;
 
+import dbmanagement.CommentRepository;
 import dbmanagement.ParticipantsRepository;
 import dbmanagement.ProposalRepository;
+import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import statisticsCalculator.ParticipantsProcessor;
 import statisticsCalculator.Processor;
-import statisticsCalculator.ProposalsProcessor;
 
 import javax.annotation.ManagedBean;
 
@@ -22,9 +22,11 @@ public class TopicListeners {
     @Autowired
     private ProposalRepository dat;
 
-
     @Autowired
     private ParticipantsRepository partiDat;
+
+    @Autowired
+    private CommentRepository commentDat;
 
     @Autowired
     private Processor proc;
@@ -42,6 +44,13 @@ public class TopicListeners {
     public void listen(Participant data){
         logger.info("New participant recieved!!!");
         partiDat.insert(data);
+        proc.update(data);
+    }
+
+    @KafkaListener(topics = "comment", containerFactory = "commentContainerFactory")
+    public void listen(Comment data){
+        logger.info("New comment received");
+        commentDat.insert(data);
         proc.update(data);
     }
 }
