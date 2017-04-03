@@ -19,51 +19,100 @@
 
     <title>Dashboard</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js" ></script>
     <script>
         function patch() {
             var request = new XMLHttpRequest();
             request.open('PATCH', '/', true);
             request.send(null);
             $("#div_contenedor").load(location.href + " #div_contenedor");
+            $.ajax({
+                type: "GET",
+                dataType: "jsonp",
+                url: "http://localhost:8090/data/topVotes",
+                success: function (data) {
+                    var ctx = document.getElementsByTagName("CANVAS")[0];
+                    topVotesChart = new Chart(ctx, data);
+                    topVotesChart.update();
+                }
+            })
+
+
         }
         setInterval(patch, 3000);
     </script>
+
 </head>
 
 <body>
-    <div id="div_contenedor" class="container">
-      <div class="page-header">
+    <div class="container">
+        <div id="div_contenedor">
+        <div class="page-header">
         <h1>Dashboard</h1>
       </div>
         <div class="row">
             <div class="col-md-4">
-              <pre>
-                <label>nº of participants in the system:</label>
-                <p th:text="${part.amount}">desu</p>
-                  </pre>
+                <div class="page-header">
+                    <h4>Participants in the system</h4>
+                </div>
+                <p th:text="${part.amount}"></p>
             </div>
             <div class="col-md-4">
-                <label>nº of proposals in the system:</label>
-                <p th:text="${prop.amount}">desu</p>
+                <div class="page-header">
+                    <h4>Proposals in the system</h4>
+                </div>
+                <p th:text="${prop.amount}"></p>
             </div>
             <div class="col-md-4">
-                <label>nº of comments in the system:</label>
-                <p th:text="${comm.amount}">desu</p>
+                <div class="page-header">
+                    <h4>Comments in the system</h4>
+                </div>
+                <p th:text="${comm.amount}"></p>
             </div>
         </div>
-        <label>Top 5 voted proposals: </label>
         <div class="row">
+            <div class="page-header">
+                <h4>Top 5 voted proposals:</h4>
+            </div>
             <div class="col-md-4">
-                <table>
-                    <tr>
-                        <th>Author</th>
-                        <th>Votes</th>
-                    </tr>
-                    <tr th:each="proposal : ${prop.topVotes}">
-                        <td th:text="${proposal.author}"> author</td>
-                        <td th:text="${proposal.votes}"> votes</td>
-                    </tr>
-                </table>
+                <canvas id="TopVotesChart">
+                    <script th:inline="javascript" name="code" id="TopVotesChartCode">
+                        /*<![CDATA[*/
+                        var data=[];
+                        var labels=[];
+
+                        var list=/*[[${prop.topVotes}]]*/;
+
+                        for(i =0;i<list.length;i++){
+                            data.push(list[i].votes);
+                            labels.push(list[i].author);
+                        }
+
+                        var ctx = document.getElementsByTagName("CANVAS")[0];
+                        var topVotesChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                datasets: [{
+                                    data: data,
+                                    backgroundColor: [
+                                        "#F7464A",
+                                        "#46BFBD",
+                                        "#FDB45C",
+                                        "#33FFF9",
+                                        "#EB35FE"
+                                    ],
+                                }],
+                                labels: labels
+                            },
+                            options: {
+                                responsive: true
+                            }
+                        });
+                        /*]]>*/
+                    </script>
+                </canvas>
             </div>
 
             <div class="col-md-4">
@@ -94,5 +143,7 @@
             </div>
         </div>
     </div>
+    </div>
+
 </body>
 </html>
