@@ -3,7 +3,6 @@ package kafka_random_producer;
 import domain.Participant;
 import domain.Proposal;
 import domain.Comment;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -58,9 +57,9 @@ public class KafkaProducerFactory {
     }
 
     @Bean
-    public KafkaTemplate<String, Participant> kafkaTemplateParti() { return new KafkaTemplate<String, Participant>(producerFactoryParticipant()); }
+    public KafkaTemplate<String, Participant> kafkaTemplateParti() { return new KafkaTemplate<>(producerFactoryParticipant()); }
 
     @Bean
-    public KafkaTemplate<String, Comment> kafkaTemplateComment() { return new KafkaTemplate<String, Comment>
+    public KafkaTemplate<String, Comment> kafkaTemplateComment() { return new KafkaTemplate<>
             (producerFactoryComment()); }
 }

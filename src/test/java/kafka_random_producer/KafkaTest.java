@@ -5,6 +5,7 @@ import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import main.Application;
+import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -26,12 +28,17 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class KafkaTest {
 
-    private static final int LOOP_TEST = 3;
+    private static final int LOOP_TEST = 5;
     @Autowired
-    KafkaTester tester;
+    private KafkaTester tester;
 
     @Autowired
     private ProposalRepository repo;
+
+    @After
+    public void tearDown() throws Exception {
+        repo.deleteAll();
+    }
 
     @Test
     public void test() throws InterruptedException {
@@ -68,13 +75,14 @@ public class KafkaTest {
     public void loopingTestParticipants() throws InterruptedException{
         String[] natTemplate ={"Spain","Canada","EEUU","Chile","Mexico","France","Ireland","Portugal","Alaska"};
         Random rnd = new Random();
+        Calendar cal = Calendar.getInstance();
         for(int i = 0; i<LOOP_TEST; i++){
             Participant participant = new Participant(
                     generateRandomChars("participantsqw",8)
                     , generateRandomChars("apelidoguay",6)
                     ,generateRandomChars("blatinfzp",9)+ "@.gmail.com"
                     , generateRandomChars("abcdefghijklmnopqrstuvwxyz",rnd.nextInt(25))
-                    , new Date(), "medaigua", natTemplate[rnd.nextInt(natTemplate.length)]
+                    , cal.getTime(), "medaigua", natTemplate[rnd.nextInt(natTemplate.length)]
                     , String.valueOf(rnd.nextInt(100000)));
             tester.sendTestParticipant(participant);
             Thread.sleep(5000);
@@ -88,9 +96,11 @@ public class KafkaTest {
                 "What a shame of ",
                 "You must be ashamed of doing this  "};
         Random rnd = new Random();
+        Proposal proposal = new Proposal("Test Proposals", 50);
+        proposal = repo.insert(proposal);
         for(int i = 0; i < LOOP_TEST; i++){
             Comment c = new Comment("" + phrasesTemplate[rnd.nextInt(phrasesTemplate.length)] + "proposal",
-                    new Proposal("Test Proposals", 25),
+                    proposal,
                     generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10))
                     );
             tester.sendTestComment(c);
@@ -98,7 +108,7 @@ public class KafkaTest {
         }
     }
 
-    private static String generateRandomChars(String candidateChars, int length) {
+    private String generateRandomChars(String candidateChars, int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < length; i++) {

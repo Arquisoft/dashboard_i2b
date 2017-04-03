@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ProposalsRepositoryCustom {
 
-    public List<ProposalCommented> getProposalsMonstCommented();
+    List<ProposalCommented> getProposalsMonstCommented();
 }

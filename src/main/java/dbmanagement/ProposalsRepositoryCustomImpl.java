@@ -1,8 +1,6 @@
 package dbmanagement;
 
-import dbmanagement.Agrupations.ParticipantLocalization;
 import dbmanagement.Agrupations.ProposalCommented;
-import domain.Participant;
 import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
