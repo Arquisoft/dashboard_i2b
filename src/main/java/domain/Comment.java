@@ -3,6 +3,7 @@ package domain;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -20,8 +21,18 @@ public class Comment{
     private String author;
     private Date created;
 
+    public Comment(){
+
+    }
+
     public Comment(String text) {
         this.text = text;
+    }
+
+    public Comment(String text, Proposal prop, String author){
+        setText(text);
+        setProposal(prop);
+        setAuthor(author);
     }
 
     public String getText() {

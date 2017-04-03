@@ -1,6 +1,7 @@
 package kafka_random_producer;
 
 import dbmanagement.ProposalRepository;
+import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import main.Application;
@@ -62,6 +63,7 @@ public class KafkaTest {
             Thread.sleep(5000);
         }
     }
+
     @Test
     public void loopingTestParticipants() throws InterruptedException{
         String[] natTemplate ={"Spain","Canada","EEUU","Chile","Mexico","France","Ireland","Portugal","Alaska"};
@@ -75,6 +77,23 @@ public class KafkaTest {
                     , new Date(), "medaigua", natTemplate[rnd.nextInt(natTemplate.length)]
                     , String.valueOf(rnd.nextInt(100000)));
             tester.sendTestParticipant(participant);
+            Thread.sleep(5000);
+        }
+    }
+
+    //Prueba con comentarios
+    @Test
+    public void loopingTestComments() throws InterruptedException {
+        String[] phrasesTemplate ={"Good ", "Excellent ", "I don't like that ", "I really like that ", "I enjoy the ",
+                "What a shame of ",
+                "You must be ashamed of doing this  "};
+        Random rnd = new Random();
+        for(int i = 0; i < LOOP_TEST; i++){
+            Comment c = new Comment("" + phrasesTemplate[rnd.nextInt(phrasesTemplate.length)] + "proposal",
+                    new Proposal("Test Proposals", 25),
+                    generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10))
+                    );
+            tester.sendTestComment(c);
             Thread.sleep(5000);
         }
     }

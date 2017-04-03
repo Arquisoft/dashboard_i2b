@@ -1,6 +1,6 @@
 package kafkamanager;
 
-import dbmanagement.CommentRepository;
+import dbmanagement.CommentsRepository;
 import dbmanagement.ParticipantsRepository;
 import dbmanagement.ProposalRepository;
 import domain.Comment;
@@ -26,7 +26,7 @@ public class TopicListeners {
     private ParticipantsRepository partiDat;
 
     @Autowired
-    private CommentRepository commentDat;
+    private CommentsRepository commentDat;
 
     @Autowired
     private Processor proc;
@@ -49,7 +49,7 @@ public class TopicListeners {
 
     @KafkaListener(topics = "comment", containerFactory = "commentContainerFactory")
     public void listen(Comment data){
-        logger.info("New comment received");
+        logger.info("New comment received!");
         commentDat.insert(data);
         proc.update(data);
     }

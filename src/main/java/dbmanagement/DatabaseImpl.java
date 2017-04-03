@@ -17,7 +17,7 @@ public class DatabaseImpl implements Database {
     @Autowired
     private ProposalRepository proposalRepo;
     @Autowired
-    private CommentRepository commentsRepo;
+    private CommentsRepository commentsRepo;
     @Autowired
     private ParticipantsRepository participantsRepo;
 
