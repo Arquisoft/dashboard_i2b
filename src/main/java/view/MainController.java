@@ -53,9 +53,9 @@ public class MainController {
     @PatchMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.addAttribute("prop", propProc);
-        model.addAttribute("comm", comProc);
-        model.addAttribute("part", parProc);
+        model.asMap().replace("prop", propProc);
+        model.asMap().replace("comm", comProc);
+        model.asMap().replace("part", parProc);
         return "dashboard";
     }
 }

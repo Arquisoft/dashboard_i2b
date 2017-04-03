@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public interface Database {
+
     List<Participant> getParticipants();
     List<Proposal> getProposals();
     List<Comment> getComments();

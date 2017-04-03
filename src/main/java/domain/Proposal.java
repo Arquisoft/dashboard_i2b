@@ -33,10 +33,17 @@ public class Proposal {
 
     public Proposal(String category, int minimalSupport){
         this.category = category;
+        this.minimalSupport = minimalSupport;
         this.votes = 0;
         this.votedUsernames = new ArrayList<>();
         this.comments = new ArrayList<>();
-        this.minimalSupport = minimalSupport;
+    }
+
+    public Proposal(String author, String category, int votes, int minimalSupport, Date created) {
+        this(category, minimalSupport);
+        this.author = author;
+        this.votes = votes;
+        this.created = created;
     }
 
     public ObjectId get_id() {

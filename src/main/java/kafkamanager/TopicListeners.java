@@ -33,7 +33,7 @@ public class TopicListeners {
     private static final Logger logger = Logger.getLogger(TopicListeners.class);
 
     @KafkaListener(topics = "proposal", containerFactory = "proposalContainerFactory")
-    public void listen(Proposal data) {
+    public void bledo(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
         proposalRepository.insert(data);
         proc.update(data);
