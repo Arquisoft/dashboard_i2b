@@ -32,7 +32,7 @@ public class EventSteps {
     public void aListOfProposals(List<Proposal> props) throws Throwable {
         prop = props.get(0);
         tester.sendTestProposal(prop);
-        Thread.sleep(1000);
+        Thread.sleep(5000);
     }
 
 

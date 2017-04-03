@@ -2,9 +2,9 @@ package dbmanagement;
 
 import domain.Comment;
 import domain.Participant;
-
 import domain.Proposal;
-import java.util.*;
+
+import java.util.List;
 
 /**
  * Created by Antonio Nicolas on 30/03/2017.

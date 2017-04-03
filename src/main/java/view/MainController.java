@@ -6,8 +6,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import statisticsCalculator.CommentsProcessor;
 import statisticsCalculator.ParticipantsProcessor;
@@ -52,9 +53,9 @@ public class MainController {
     @PatchMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.asMap().replace("prop", propProc);
-        model.asMap().replace("comm", comProc);
-        model.asMap().replace("part", parProc);
+        model.addAttribute("prop", propProc);
+        model.addAttribute("comm", comProc);
+        model.addAttribute("part", parProc);
         return "dashboard";
     }
 }

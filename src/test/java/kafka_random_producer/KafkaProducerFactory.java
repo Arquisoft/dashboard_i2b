@@ -1,8 +1,8 @@
 package kafka_random_producer;
 
+import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +34,11 @@ public class KafkaProducerFactory {
     }
 
     @Bean
+    public ProducerFactory<String, Comment> producerFactoryComment() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://localhost:9092");
@@ -52,5 +57,9 @@ public class KafkaProducerFactory {
     }
 
     @Bean
-    public KafkaTemplate<String, Participant> kafkaTemplateParti() { return new KafkaTemplate<String, Participant>(producerFactoryParticipant()); }
+    public KafkaTemplate<String, Participant> kafkaTemplateParti() { return new KafkaTemplate<>(producerFactoryParticipant()); }
+
+    @Bean
+    public KafkaTemplate<String, Comment> kafkaTemplateComment() { return new KafkaTemplate<>
+            (producerFactoryComment()); }
 }

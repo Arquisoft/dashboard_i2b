@@ -1,9 +1,13 @@
 package kafka_random_producer;
 
+import dbmanagement.CommentsRepository;
+import dbmanagement.ParticipantsRepository;
 import dbmanagement.ProposalRepository;
+import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import main.Application;
+import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +30,23 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class KafkaTest {
 
-    private static final int LOOP_TEST = 20;
+    private static final int LOOP_TEST = 5;
     @Autowired
-    KafkaTester tester;
+    private KafkaTester tester;
 
     @Autowired
-    private ProposalRepository repo;
+    private ProposalRepository proposalRepo;
+    @Autowired
+    private ParticipantsRepository participantRepo;
+    @Autowired
+    private CommentsRepository commentRepo;
+
+    @After
+    public void tearDown() throws Exception {
+        proposalRepo.deleteAll();
+        participantRepo.deleteAll();
+        commentRepo.deleteAll();
+    }
 
     @Test
     public void test() throws InterruptedException {
@@ -44,12 +59,12 @@ public class KafkaTest {
         proposal.setCreated(new Date());
         tester.sendTestProposal(proposal);
         Thread.sleep(10000);
-        Proposal test = repo.findByAuthorAndCategoryAndCreated(
+        Proposal test = proposalRepo.findByAuthorAndCategoryAndCreated(
                 proposal.getAuthor()
                 , proposal.getCategory()
                 , proposal.getCreated());
         assertEquals(test, proposal);
-        repo.delete(test);
+        proposalRepo.delete(test);
     }
 
     @Test
@@ -63,6 +78,7 @@ public class KafkaTest {
             Thread.sleep(5000);
         }
     }
+
     @Test
     public void loopingTestParticipants() throws InterruptedException{
         String[] natTemplate ={"Spain","Canada","EEUU","Chile","Mexico","France","Ireland","Portugal","Alaska"};
@@ -81,7 +97,26 @@ public class KafkaTest {
         }
     }
 
-    private static String generateRandomChars(String candidateChars, int length) {
+    //Prueba con comentarios
+    @Test
+    public void loopingTestComments() throws InterruptedException {
+        String[] phrasesTemplate ={"Good ", "Excellent ", "I don't like that ", "I really like that ", "I enjoy the ",
+                "What a shame of ",
+                "You must be ashamed of doing this  "};
+        Random rnd = new Random();
+        Proposal proposal = new Proposal("Test Proposals", 50);
+        proposal = proposalRepo.insert(proposal);
+        for(int i = 0; i < LOOP_TEST; i++){
+            Comment c = new Comment("" + phrasesTemplate[rnd.nextInt(phrasesTemplate.length)] + "proposal",
+                    proposal,
+                    generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10))
+                    );
+            tester.sendTestComment(c);
+            Thread.sleep(5000);
+        }
+    }
+
+    private String generateRandomChars(String candidateChars, int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < length; i++) {
