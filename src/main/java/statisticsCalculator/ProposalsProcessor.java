@@ -48,7 +48,7 @@ public class ProposalsProcessor{
     public void update(Proposal data){
         amount++;
         updateTopVotes(data);
-        updateTopCommented(data);
+        //updateTopCommented(data);
     }
 
     private void updateTopVotes(Proposal data) {

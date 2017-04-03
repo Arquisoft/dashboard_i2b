@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
+    <!-- to use the latest rendering engine in case it doesn't-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Adjusts the viewport and the scale of the browser -->
+    <meta name="viewport" content="width = device-width, initial-scale = 1" />
+
+    <!-- Bootstrap CDN in order to have support for Bootstrap's CSS and js -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- in order to include tether for BS 4 -->
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
     <title>Dashboard</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-        function patch(){
+        function patch() {
             var request = new XMLHttpRequest();
             request.open('PATCH', '/', true);
             request.send(null);
@@ -14,52 +29,73 @@
         setInterval(patch, 3000);
     </script>
 </head>
+
 <body>
-    <div id="div_contenedor">
-        <label>nº of participants in the system:</label>
-        <p th:text="${part.amount}">desu</p>
-
-        <label>nº of proposals in the system:</label>
-        <p th:text="${prop.amount}">desu</p>
-
-        <label>nº of comments in the system:</label>
-        <p th:text="${comm.amount}">desu</p>
+    <div id="div_contenedor" class="container">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+      </div>
+        <div class="row">
+            <div class="col-md-4">
+              <pre>
+                <label>nº of participants in the system:</label>
+                <p th:text="${part.amount}">desu</p>
+                  </pre>
+            </div>
+            <div class="col-md-4">
+                <label>nº of proposals in the system:</label>
+                <p th:text="${prop.amount}">desu</p>
+            </div>
+            <div class="col-md-4">
+                <label>nº of comments in the system:</label>
+                <p th:text="${comm.amount}">desu</p>
+            </div>
+        </div>
 
         <label>Top 5 voted proposals: </label>
-        <table>
-            <tr>
-                <th>Author</th>
-                <th>Votes</th>
-            </tr>
-            <tr th:each="proposal : ${prop.topVotes}">
-                <td th:text="${proposal.author}"> author</td>
-                <td th:text="${proposal.votes}"> votes</td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-4">
+                <table>
+                    <tr>
+                        <th>Author</th>
+                        <th>Votes</th>
+                    </tr>
+                    <tr th:each="proposal : ${prop.topVotes}">
+                        <td th:text="${proposal.author}"> author</td>
+                        <td th:text="${proposal.votes}"> votes</td>
+                    </tr>
+                </table>
+            </div>
 
-        <label>Participants by nationality: </label>
-        <table>
-            <tr>
-                <th>Nationality</th>
-                <th>Amount</th>
-            </tr>
-            <tr th:each="localizationData : ${part.nationAgrup}">
-                <td th:text="${localizationData.nationality}"> author</td>
-                <td th:text="${localizationData.amount}"> votes</td>
-            </tr>
-        </table>
-        <label>Most Commented Proposals: </label>
-        <table>
-            <tr>
-                <th>Author</th>
-                <th>Amount</th>
-            </tr>
-            <tr th:each="proposalData : ${prop.topCommented}">
-                <td th:text="${proposalData.author}"> author</td>
-                <td th:text="${proposalData.amountComments}"> votes</td>
-            </tr>
-        </table>
+            <div class="col-md-4">
+                <label>Participants by nationality: </label>
+                <table>
+                    <tr>
+                        <th>Nationality</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr th:each="localizationData : ${part.nationAgrup}">
+                        <td th:text="${localizationData.nationality}"> author</td>
+                        <td th:text="${localizationData.amount}"> votes</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <label>Most Commented Proposals: </label>
+                <table>
+                    <tr>
+                        <th>Author</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr th:each="proposalData : ${prop.topCommented}">
+                        <td th:text="${proposalData.author}"> author</td>
+                        <td th:text="${proposalData.amountComments}"> votes</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
 </body>
+
 </html>

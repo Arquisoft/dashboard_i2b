@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class KafkaTest {
 
-    private static final int LOOP_TEST = 3;
+    private static final int LOOP_TEST = 5;
     @Autowired
     KafkaTester tester;
 
