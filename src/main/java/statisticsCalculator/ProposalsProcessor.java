@@ -3,7 +3,6 @@ package statisticsCalculator;
 import dbmanagement.Agrupations.ProposalCommented;
 import dbmanagement.ProposalRepository;
 import dbmanagement.ProposalsRepositoryCustom;
-import dbmanagement.ProposalsRepositoryCustomImpl;
 import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,7 @@ public class ProposalsProcessor{
         if(position<5) {
             topVotes.add(position, data);
             if(topVotes.size()==5)
-                topVotes.remove(topVotes.size()); //Quitamos el ultimo
+                topVotes.remove(topVotes.size() - 1); //Quitamos el ultimo
         }
     }
 

@@ -20,13 +20,13 @@ import javax.annotation.ManagedBean;
 public class TopicListeners {
 
     @Autowired
-    private ProposalRepository dat;
+    private ProposalRepository proposalRepository;
 
     @Autowired
-    private ParticipantsRepository partiDat;
+    private ParticipantsRepository participantsRepo;
 
     @Autowired
-    private CommentsRepository commentDat;
+    private CommentsRepository commentsRepo;
 
     @Autowired
     private Processor proc;
@@ -36,21 +36,26 @@ public class TopicListeners {
     @KafkaListener(topics = "proposal", containerFactory = "proposalContainerFactory")
     public void listen(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
-        dat.insert(data);
+        proposalRepository.insert(data);
         proc.update(data);
     }
 
     @KafkaListener(topics = "participant", containerFactory = "participantContainerFactory")
     public void listen(Participant data){
         logger.info("New participant recieved!!!");
-        partiDat.insert(data);
+        participantsRepo.insert(data);
         proc.update(data);
     }
 
     @KafkaListener(topics = "comment", containerFactory = "commentContainerFactory")
     public void listen(Comment data){
         logger.info("New comment received!");
-        commentDat.insert(data);
+        data = commentsRepo.insert(data); //Update the comment with the Mongo ID
+        Proposal prop = proposalRepository.findOne(data.getProposal().get_id());
+        //Get the proposal and add the comment
+        prop.getComments().add(data);
+        proposalRepository.save(prop);
+        //Update the proposal
         proc.update(data);
     }
 }
