@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
  */
 @Service
 public class ProposalsRepositoryCustomImpl implements ProposalsRepositoryCustom {
+
     @Autowired
     private MongoTemplate mongoTemplate;
-
 
     public ProposalsRepositoryCustomImpl(MongoTemplate mongoTemplate){
         this.mongoTemplate=mongoTemplate;
@@ -26,7 +27,7 @@ public class ProposalsRepositoryCustomImpl implements ProposalsRepositoryCustom 
 
     @Override
     public List<ProposalCommented> getProposalsMostCommented() {
-        Aggregation agg = Aggregation.newAggregation(
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("comments").exists(true)),
                 Aggregation.project("author").and("comments").size().as("amountComments"),
                 Aggregation.sort(Sort.Direction.DESC, "amountComments"),
                 Aggregation.limit(5));
