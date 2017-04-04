@@ -1,7 +1,6 @@
 package dbmanagement;
 
 import domain.Proposal;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,7 @@ import java.util.List;
  * Repository class for Proposal related queries
  */
 @Repository
-public interface ProposalRepository extends MongoRepository<Proposal, ObjectId> {
+public interface ProposalRepository extends MongoRepository<Proposal, String> {
 
     List<Proposal> findByAuthor(String autor);
 

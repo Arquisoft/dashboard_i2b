@@ -1,6 +1,5 @@
 package domain;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class Proposal {
 
     @Id
-    private ObjectId _id;
+    private String _id;
 
     private String title;
     private String author;
@@ -49,7 +48,7 @@ public class Proposal {
         this.created = created;
     }
 
-    public ObjectId get_id() {
+    public String get_id() {
         return _id;
     }
 
