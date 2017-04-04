@@ -1,0 +1,10 @@
+{
+  "simulation": "asw.gatling.tests.LoadLanding",
+  "simulationId": "loadlanding",
+  "start": 1491346189528,
+  "description": "",
+  "scenarios": ["LoadLanding"],
+  "assertions": [
+
+  ]
+}
