@@ -94,4 +94,45 @@ public class TopicListeners {
         //Update data
         proc.update(com);
     }
+
+    @KafkaListener(topics = "unvoteProposal", containerFactory = "voteContainerFactory")
+    public void listenProposalUnvote(String data){
+        logger.info("Removing a proposal vote received!");
+        String[] arr = data.split(";");
+
+        //Get proposal and update number of votes
+        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        prop.setVotes(prop.getVotes() - 1);
+
+        //Get participant and update participant not voting the proposal
+        Participant par = participantsRepo.findOne(new ObjectId(arr[1]));
+        prop.getVotedUsernames().remove(par.getUserId());
+
+        //Save data
+        proposalRepository.save(prop);
+
+        //Update data
+        proc.update(prop);
+    }
+
+    @KafkaListener(topics = "unvoteComment", containerFactory = "voteContainerFactory")
+    public void listenCommentUnvote(String data){
+        //El formato es: propID;commentNumber;userId
+        logger.info("Removing a comment vote received!");
+        String[] arr = data.split(";");
+
+        //Get proposal, comment and voter
+        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        Comment com = prop.getComments().get(Integer.parseInt(arr[1]));
+        Participant par = participantsRepo.findOne(new ObjectId(arr[2]));
+
+        //Remove the vote from the comment
+        com.getVotes().remove(par.getUserId());
+
+        //Save data
+        commentsRepo.save(com);
+
+        //Update data
+        proc.update(com);
+    }
 }
