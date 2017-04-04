@@ -20,4 +20,5 @@ before_install:
 - sleep 5
 - kafka/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic proposal --zookeeper localhost:2181
 - kafka/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic exampleTopic --zookeeper localhost:2181
+- sleep 10
 
