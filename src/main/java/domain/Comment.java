@@ -4,7 +4,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Nicolás on 29/03/2017.
@@ -19,6 +21,8 @@ public class Comment{
     private Proposal proposal;
     private String author;
     private Date created;
+    private List<String> votes;
+    private long num;
 
     public Comment(){
 
@@ -32,6 +36,7 @@ public class Comment{
         setText(text);
         setProposal(prop);
         setAuthor(author);
+        this.votes = new ArrayList<>();
     }
 
     public String getText() {
@@ -64,6 +69,22 @@ public class Comment{
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public List<String> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<String> votes) {
+        this.votes = votes;
+    }
+
+    public long getNum() {
+        return this.num;
+    }
+
+    public void setNum(long num) {
+        this.num = num;
     }
 
     @Override
