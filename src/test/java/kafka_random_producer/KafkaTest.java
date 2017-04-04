@@ -37,7 +37,7 @@ public class KafkaTest {
     private Database database;
 
     private String[] titleTemplate = {"What about building a wall?"
-            , "Bigger univeristy for oftware engineer"
+            , "Bigger univeristy for software engineer"
             , "Let's make uniovi great again"
             , "More efficient traffic lights"
             , "New hospital near Corredoria"};
@@ -78,7 +78,7 @@ public class KafkaTest {
             Proposal proposal = new Proposal("Test Proposals", 50);
             proposal.setAuthor(generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10)));
             proposal.setVotes( rnd.nextInt(1000));
-            proposal.setTitle(titleTemplate[rnd.nextInt(titleTemplate.length)]);
+            proposal.setTitle(titleTemplate[i]);
             proposal.setBody(generateRandomChars("abcdefghijklmnopqrstuvwxyz.,-",rnd.nextInt(1000)+500));
             tester.sendTestProposal(proposal);
             Thread.sleep(5000);
