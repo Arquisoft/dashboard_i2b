@@ -8,6 +8,7 @@ import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +44,13 @@ public class DatabaseImpl implements Database {
         this.proposalsCustomRepo = proposalsCustomRepo;
         this.commentsCustomRepo=commentsCustomRepo;
     }
+
+
+    @Override
+    public Proposal findPropByAuthorAndCategoryAndCreated(String author, String category, Date created) {
+        return proposalRepo.findByAuthorAndCategoryAndCreated(author,category,created);
+    }
+
     @Override
     public List<Participant> getParticipants() { return participantsRepo.findAll(); }
     @Override
@@ -53,6 +61,39 @@ public class DatabaseImpl implements Database {
     @Override
     public List<Comment> getComments() {
         return commentsRepo.findAll();
+    }
+
+    @Override
+    public Proposal insert(Proposal proposal) {
+        return proposalRepo.insert(proposal);
+    }
+
+    @Override
+    public Participant save(Participant participant) {
+        return participantsRepo.save(participant);
+    }
+
+    @Override
+    public Proposal save(Proposal proposal) {
+        return proposalRepo.save(proposal);
+    }
+
+    @Override
+    public Comment save(Comment comment) {
+        return commentsRepo.save(comment);
+    }
+
+
+    @Override
+    public void reset() {
+        proposalRepo.deleteAll();
+        participantsRepo.deleteAll();
+        commentsRepo.deleteAll();
+    }
+
+    @Override
+    public void delete(Proposal proposal) {
+        proposalRepo.delete(proposal);
     }
 
     @Override

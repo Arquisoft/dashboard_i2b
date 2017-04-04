@@ -1,6 +1,7 @@
 package kafka_random_producer;
 
 import dbmanagement.CommentsRepository;
+import dbmanagement.Database;
 import dbmanagement.ParticipantsRepository;
 import dbmanagement.ProposalRepository;
 import domain.Comment;
@@ -8,6 +9,7 @@ import domain.Participant;
 import domain.Proposal;
 import main.Application;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,11 +34,7 @@ public class KafkaTest {
     private KafkaTester tester;
 
     @Autowired
-    private ProposalRepository proposalRepo;
-    @Autowired
-    private ParticipantsRepository participantRepo;
-    @Autowired
-    private CommentsRepository commentRepo;
+    private Database database;
 
     private String[] titleTemplate = {"What about building a wall?"
             , "Bigger univeristy for oftware engineer"
@@ -46,9 +44,12 @@ public class KafkaTest {
 
     @After
     public void tearDown() throws Exception {
-        //proposalRepo.deleteAll();
-        //participantRepo.deleteAll();
-        //commentRepo.deleteAll();
+        database.reset();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        database.reset();
     }
 
     @Test
@@ -62,12 +63,12 @@ public class KafkaTest {
         proposal.setCreated(new Date());
         tester.sendTestProposal(proposal);
         Thread.sleep(10000);
-        Proposal test = proposalRepo.findByAuthorAndCategoryAndCreated(
+        Proposal test = database.findPropByAuthorAndCategoryAndCreated(
                 proposal.getAuthor()
                 , proposal.getCategory()
                 , proposal.getCreated());
         assertEquals(test, proposal);
-        proposalRepo.delete(test);
+        database.delete(test);
     }
 
     @Test
@@ -95,7 +96,7 @@ public class KafkaTest {
                     , generateRandomChars("apelidoguay",6)
                     ,generateRandomChars("blatinfzp",9)+ "@.gmail.com"
                     , generateRandomChars("abcdefghijklmnopqrstuvwxyz",rnd.nextInt(25))
-                    , cal.getTime(), "medaigua", natTemplate[rnd.nextInt(natTemplate.length)]
+                    , cal.getTime(), "medaigua", natTemplate[i]
                     , String.valueOf(rnd.nextInt(100000)));
             tester.sendTestParticipant(participant);
             Thread.sleep(5000);
@@ -113,7 +114,7 @@ public class KafkaTest {
         for (String title : titleTemplate) {
             Proposal proposal = new Proposal("Test Proposals", 50);
             proposal.setTitle(titleTemplate[rnd.nextInt(titleTemplate.length)]);
-            proposals.add(proposalRepo.insert(proposal));
+            proposals.add(database.insert(proposal));
         }
 
         for(int i = 0; i < LOOP_TEST; i++){

@@ -6,6 +6,7 @@ import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,16 +15,28 @@ import java.util.List;
 
 public interface Database {
 
+    //Crud
+    Proposal findPropByAuthorAndCategoryAndCreated(String author, String category, Date created);
+
     List<Participant> getParticipants();
     List<Proposal> getProposals();
     List<Comment> getComments();
+
+    Proposal insert(Proposal proposal);
+
+    Participant save(Participant participant);
+    Proposal save(Proposal proposal);
+    Comment save(Comment comment);
+
+    void reset();
+    void delete(Proposal proposal);
+
 
     Long countParticipants();
     Long countProposals();
     Long countComments();
 
     List<ParticipantLocalization> getParticipantsGroupByNationality();
-
 
     List<Proposal> findTop5ProposalsByVotes();
 
