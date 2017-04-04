@@ -27,7 +27,8 @@ public class ProposalsRepositoryCustomImpl implements ProposalsRepositoryCustom 
 
     @Override
     public List<ProposalCommented> getProposalsMostCommented() {
-        Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("comments").exists(true)),
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("comments").exists(true).andOperator(Criteria.where("comments").ne(false))),
                 Aggregation.project("title").and("comments").size().as("amountComments"),
                 Aggregation.sort(Sort.Direction.DESC, "amountComments"),
                 Aggregation.limit(5));

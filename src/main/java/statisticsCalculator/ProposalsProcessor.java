@@ -26,7 +26,7 @@ public class ProposalsProcessor{
         this.dat = dat;
         amount = dat.countProposals();
         topVotes = dat.findTop5ProposalsByVotes();
-        topCommented = dat.findTop5MostCommentedProposal();
+        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
     public Long getAmount() {
@@ -44,7 +44,7 @@ public class ProposalsProcessor{
         updateTopVotes(data);
     }
 
-    public void updateCommentRecieved(){
+    public void updateCommentReceived(){
         updateTopCommented();
     }
 
@@ -56,21 +56,8 @@ public class ProposalsProcessor{
                 topVotes.remove(topVotes.size() - 1); //Quitamos el ultimo
         }
     }
-
-    //Really strange that the update is going to change anything
-    //As a proposal can't be created with comments in it.
-    /*private void updateTopCommented(Proposal data){
-        int position = (int) (topCommented.size() - topCommented.stream().filter(element-> element.getAmountComments()<data.getComments().size()).count());
-        if(position<5) {
-            topCommented.add(position, new ProposalCommented(data.getAuthor(),data.getComments().size()+1));
-            if(topCommented.size()==5)
-                topCommented.remove(topCommented.size()); //Quitamos el ultimo
-        }
-    }*/
-
     //Be carefull, it may cause overhead in the db system.
     private void updateTopCommented() {
-
         topCommented = dat.findTop5MostCommentedProposal();
     }
 
