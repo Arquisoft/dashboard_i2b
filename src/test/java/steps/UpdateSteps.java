@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -61,7 +62,6 @@ public class UpdateSteps {
         Proposal test =
                 proposalRepo.findByAuthorAndCategoryAndCreated(prop.getAuthor(), prop.getCategory(), prop.getCreated());
         assertEquals(prop, test);
-        prop = test; //We'll use it next
     }
 
     @And("^the interface has to be updated, including the list of most voted$")
@@ -77,6 +77,11 @@ public class UpdateSteps {
     @When("^a comment event is sent$")
     public void aCommentEventIsSent(List<Comment> comments) throws Throwable {
         MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        Proposal prop = new Proposal("Test for comment"
+                , "Test category"
+                , 50, 20
+                , new Date());
+        prop = proposalRepo.insert(prop);
         comment = comments.get(0);
         comment.setProposal(prop);
         result = mvc.perform(get("/")).andReturn();
