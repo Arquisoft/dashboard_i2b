@@ -12,7 +12,7 @@ import java.util.List;
  * Repository class for Proposal related queries
  */
 @Repository
-public interface ProposalRepository extends MongoRepository<Proposal, ObjectId> {
+public interface ProposalRepository extends MongoRepository<Proposal, String> {
 
     List<Proposal> findByAuthor(String autor);
 

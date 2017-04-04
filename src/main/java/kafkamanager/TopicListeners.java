@@ -65,7 +65,7 @@ public class TopicListeners {
         logger.info("New vote for a proposal received!");
         String[] arr = data.split(";");
         //Get proposal and update number of votes
-        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        Proposal prop = proposalRepository.findOne(arr[0]);
         prop.setVotes(prop.getVotes() + 1);
         //Get participant and update participant voting the proposal
         Participant par = participantsRepo.findOne(new ObjectId(arr[1]));
@@ -83,7 +83,7 @@ public class TopicListeners {
         String[] arr = data.split(";");
 
         //Get proposal, comment and voter
-        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        Proposal prop = proposalRepository.findOne(arr[0]);
         Comment com = prop.getComments().get(Integer.parseInt(arr[1]));
         Participant par = participantsRepo.findOne(new ObjectId(arr[2]));
 
