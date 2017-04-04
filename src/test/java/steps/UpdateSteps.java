@@ -1,5 +1,6 @@
 package steps;
 
+import com.esotericsoftware.minlog.Log;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -38,6 +39,7 @@ public class UpdateSteps {
     @Autowired
     private KafkaTester tester;
     private MockMvc mvc;
+    private MvcResult result;
 
     @Autowired
     private WebApplicationContext context;
@@ -58,24 +60,28 @@ public class UpdateSteps {
 
     @Then("^the database has to be updated with a new proposal$")
     public void theDatabaseHasToBeUpdatedNewProposal() throws Throwable {
-        Proposal test = proposalRepo.findByAuthorAndCategoryAndCreated(prop.getAuthor(), prop.getCategory(), prop.getCreated());
+        Proposal test =
+                proposalRepo.findByAuthorAndCategoryAndCreated(prop.getAuthor(), prop.getCategory(), prop.getCreated());
         assertEquals(prop, test);
+        prop = test; //We'll use it next
     }
 
     @And("^the interface has to be updated, including the list of most voted$")
     public void theInterfaceHasToBeUpdatedIncludingTheListOfMostVoted() throws Throwable {
         //Can't parse it another way
-        MvcResult result = mvc.perform(get("/")).andReturn();
+        tester.sendTestProposal(prop);
+        Thread.sleep(5000);
+        result = mvc.perform(get("/")).andReturn();
+        Thread.sleep(5000);
         assertTrue(result.getResponse().getContentAsString()
                 .contains("<h4>Proposals in the system: <span>1</span></h4>"));
-        proposalRepo.deleteAll();
     }
 
     @When("^a comment event is sent$")
     public void aCommentEventIsSent(List<Comment> comments) throws Throwable {
-        this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
         comment = comments.get(0);
-        MvcResult result = mvc.perform(get("/")).andReturn();
+        comment.setProposal(prop);
+        result = mvc.perform(get("/")).andReturn();
         assertTrue(result.getResponse().getContentAsString()
                 .contains("<h4>Comments in the system: <span>0</span></h4>"));
         tester.sendTestComment(comment);
@@ -93,6 +99,5 @@ public class UpdateSteps {
         MvcResult result = mvc.perform(get("/")).andReturn();
         /*assertTrue(result.getResponse().getContentAsString()
                 .contains("<h4>Comments in the system: <span>1</span></h4>"));*/
-        commentsRepo.deleteAll();
     }
 }

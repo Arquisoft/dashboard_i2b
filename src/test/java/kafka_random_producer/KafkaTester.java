@@ -31,6 +31,6 @@ public class KafkaTester {
     }
 
     public void sendTestComment(Comment comment){
-        commentProducer.send("comment", comment);
+        commentProducer.send("topicComment", comment);
     }
 }

@@ -1,5 +1,6 @@
 package kafkamanager;
 
+import com.esotericsoftware.minlog.Log;
 import dbmanagement.CommentsRepository;
 import dbmanagement.ParticipantsRepository;
 import dbmanagement.ProposalRepository;
@@ -47,7 +48,7 @@ public class TopicListeners {
         proc.update(data);
     }
 
-    @KafkaListener(topics = "comment", containerFactory = "commentContainerFactory")
+    @KafkaListener(topics = "topicComment", containerFactory = "commentContainerFactory")
     public void listen(Comment data){
         logger.info("New comment received!");
         data = commentsRepo.insert(data); //Update the comment with the Mongo ID
