@@ -37,6 +37,7 @@ public class ProcessorImpl implements Processor {
 
     @Override
     public void update(Comment data){
+        propProc.updateCommentRecieved(); //we have to update the ProposalsProcessor in order to have
         commProc.update(data);
     }
 

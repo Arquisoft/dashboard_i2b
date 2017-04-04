@@ -1,6 +1,6 @@
 package statisticsCalculator;
 
-import dbmanagement.ParticipantsRepository;
+import dbmanagement.Database;
 import domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,11 @@ public class CommentsProcessor{
 
 
     @Autowired
-    public CommentsProcessor( ParticipantsRepository dat){
-        amount = 0L;
+    private Database dat;
+
+    public CommentsProcessor( Database dat){
+        this.dat=dat;
+        amount=dat.countComments();
     }
 
 
@@ -29,9 +32,9 @@ public class CommentsProcessor{
     }
 
     /*
-         Ideas::
+         Ideas:
 
-         CComments with most length
+         Comments with most length
 
      */
 }

@@ -22,7 +22,7 @@ public class DataController {
     @ResponseBody
     public Map<String,Object> getMostVotedProposals(){
         List<Proposal> proposals = propProc.getTopVotes();
-        Map<String, Object> values = new HashMap<String, Object>();
+        Map<String, Object> values = new HashMap<>();
 
         values.put("type","pie");
         Map<String, Object> subvalues = new HashMap<>();

@@ -1,8 +1,7 @@
 package statisticsCalculator;
 
 import dbmanagement.Agrupations.ProposalCommented;
-import dbmanagement.ProposalRepository;
-import dbmanagement.ProposalsRepositoryCustom;
+import dbmanagement.Database;
 import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,21 +15,18 @@ import java.util.List;
 public class ProposalsProcessor{
 
     @Autowired
-    private ProposalRepository dat;
-    @Autowired
-    private ProposalsRepositoryCustom datCust;
+    private Database dat;
 
     private Long amount;
     private List<Proposal> topVotes;
     private List<ProposalCommented> topCommented;
 
     @Autowired
-    public ProposalsProcessor(ProposalRepository dat, ProposalsRepositoryCustom datCust){
+    public ProposalsProcessor(Database dat){
         this.dat = dat;
-        this.datCust=datCust;
-        amount = dat.count();
-        topVotes = dat.findTop5ByOrderByVotesDesc();
-        //topCommented = datCust.getProposalsMostCommented();
+        amount = dat.countProposals();
+        topVotes = dat.findTop5ProposalsByVotes();
+        topCommented = dat.findTop5MostCommentedProposal();
     }
 
     public Long getAmount() {
@@ -46,28 +42,38 @@ public class ProposalsProcessor{
     public void update(Proposal data){
         amount++;
         updateTopVotes(data);
-        //updateTopCommented(data);
+    }
+
+    public void updateCommentRecieved(){
+        updateTopCommented();
     }
 
     private void updateTopVotes(Proposal data) {
         int position =(int) (topVotes.size() - topVotes.stream().filter(element-> element.getVotes()<data.getVotes()).count());
         if(position<5) {
             topVotes.add(position, data);
-            if(topVotes.size()==5)
+            if(topVotes.size()>=6)
                 topVotes.remove(topVotes.size() - 1); //Quitamos el ultimo
         }
     }
 
     //Really strange that the update is going to change anything
     //As a proposal can't be created with comments in it.
-    private void updateTopCommented(Proposal data){
+    /*private void updateTopCommented(Proposal data){
         int position = (int) (topCommented.size() - topCommented.stream().filter(element-> element.getAmountComments()<data.getComments().size()).count());
         if(position<5) {
             topCommented.add(position, new ProposalCommented(data.getAuthor(),data.getComments().size()+1));
             if(topCommented.size()==5)
                 topCommented.remove(topCommented.size()); //Quitamos el ultimo
         }
+    }*/
+
+    //Be carefull, it may cause overhead in the db system.
+    private void updateTopCommented() {
+
+        topCommented = dat.findTop5MostCommentedProposal();
     }
+
 }
 
 

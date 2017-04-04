@@ -7,6 +7,7 @@ import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,44 @@ public class TopicListeners {
         Proposal prop = proposalRepository.findOne(data.getProposal().get_id());
         //Get the proposal and add the comment
         prop.getComments().add(data);
-        proposalRepository.save(prop);
         //Update the proposal
+        proposalRepository.save(prop);
         proc.update(data);
+    }
+
+    @KafkaListener(topics = "voteProposal", containerFactory = "voteContainerFactory")
+    public void listenProposalVote(String data){
+        logger.info("New vote for a proposal received!");
+        String[] arr = data.split(";");
+        //Get proposal and update number of votes
+        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        prop.setVotes(prop.getVotes() + 1);
+        //Get participant and update participant voting the proposal
+        Participant par = participantsRepo.findOne(new ObjectId(arr[1]));
+        prop.getVotedUsernames().add(par.getUserId());
+        //Save data
+        proposalRepository.save(prop);
+        //Update data
+        proc.update(prop);
+    }
+
+    @KafkaListener(topics = "voteComment", containerFactory = "voteContainerFactory")
+    public void listenCommentVote(String data){
+        //El formato es: propID;commentNumber;userId
+        logger.info("New vote for a comment received!");
+        String[] arr = data.split(";");
+
+        //Get proposal, comment and voter
+        Proposal prop = proposalRepository.findOne(new ObjectId(arr[0]));
+        Comment com = prop.getComments().get(Integer.parseInt(arr[1]));
+        Participant par = participantsRepo.findOne(new ObjectId(arr[2]));
+
+        //Update the votes
+        com.getVotes().add(par.getUserId());
+
+        //Save data
+        commentsRepo.save(com);
+        //Update data
+        proc.update(com);
     }
 }

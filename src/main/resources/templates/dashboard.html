@@ -20,8 +20,8 @@
     <title>Dashboard</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
     <script>
         function patch() {
             var request = new XMLHttpRequest();
@@ -32,9 +32,9 @@
                 type: "GET",
                 dataType: "jsonp",
                 url: "http://localhost:8090/data/topVotes",
-                success: function (data) {
+                success: function(info) {
                     var ctx = document.getElementsByTagName("CANVAS")[0];
-                    topVotesChart = new Chart(ctx, data);
+                    topVotesChart.data = info;
                     topVotesChart.update();
                 }
             })
@@ -70,12 +70,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="page-header">
-                <h4>Top 5 voted proposals:</h4>
-            </div>
-
             <div class="col-md-4">
-                <label>Participants by nationality: </label>
+                <h4>Top 5 voted proposals:</h4>
+                <table>
+                    <tr>
+                        <th>Author</th>
+                        <th>Votes</th>
+                    </tr>
+                    <tr th:each="proposal : ${prop.topVotes}">
+                        <td th:text="${proposal.title}"> author</td>
+                        <td th:text="${proposal.votes}"> votes</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h4>Participants by nationality: </h4>
                 <table>
                     <tr>
                         <th>Nationality</th>
@@ -88,14 +97,14 @@
                 </table>
             </div>
             <div class="col-md-4">
-                <label>Most Commented Proposals: </label>
+                <h4>Most Commented Proposals: </h4>
                 <table>
                     <tr>
                         <th>Author</th>
                         <th>Amount</th>
                     </tr>
                     <tr th:each="proposalData : ${prop.topCommented}">
-                        <td th:text="${proposalData.author}"> author</td>
+                        <td th:text="${proposalData.title}"> author</td>
                         <td th:text="${proposalData.amountComments}"> votes</td>
                     </tr>
                 </table>
@@ -104,4 +113,5 @@
     </div>
 </div>
 </body>
+
 </html>

@@ -67,4 +67,19 @@ public class KafkaListenerFactory {
         return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerJsonConfig(),
                 null, new JsonDeserializer<>(Comment.class));
     }
+
+    @Bean(name = "voteContainerFactory")
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> voteContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerVoteFactory());
+        factory.setConcurrency(3);
+        factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerVoteFactory() {
+        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerStringConfig());
+    }
 }

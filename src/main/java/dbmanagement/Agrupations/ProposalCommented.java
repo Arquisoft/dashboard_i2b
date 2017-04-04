@@ -5,25 +5,27 @@ package dbmanagement.Agrupations;
  */
 public class ProposalCommented {
 
-    private String author;
+    private String title;
     private int amountComments;
 
-    public ProposalCommented(String author, int amountComments){
-        this.author=author;
+    public ProposalCommented(String title, int amountComments){
+        this.title=title;
         this.amountComments=amountComments;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setAmountComments(int amountComments) {
         this.amountComments = amountComments;
     }
 
-    public String getAuthor() {
-        return author;
-    }
 
     public int getAmountComments() {
         return amountComments;

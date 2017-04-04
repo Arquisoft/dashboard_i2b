@@ -1,12 +1,12 @@
 package domain;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Nicolás on 29/03/2017.
@@ -16,26 +16,27 @@ public class Comment{
     @Id
     private ObjectId _id;
 
+    private String text;
     private String author;
     private String body;
     private Date created;
+
     @DBRef
     private Proposal proposal;
 
     private List<String> votedUsernames;
 
+    private List<String> votes;
+    private long num;
+
     public Comment(){
 
     }
 
-    public Comment(String author, String body, Date created){
+    public Comment(String author, String body, Date created, Proposal prop){
         setBody(body);
         setAuthor(author);
         setCreated(created);
-    }
-
-    public Comment(String body, Proposal prop, String author){
-        this(author, body, new Date());
         setProposal(prop);
     }
 
@@ -77,6 +78,22 @@ public class Comment{
 
     public void setVotedUsernames(List<String> votedUsernames) {
         this.votedUsernames = votedUsernames;
+    }
+
+    public List<String> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<String> votes) {
+        this.votes = votes;
+    }
+
+    public long getNum() {
+        return this.num;
+    }
+
+    public void setNum(long num) {
+        this.num = num;
     }
 
     @Override
