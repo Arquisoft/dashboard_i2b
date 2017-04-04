@@ -1,9 +1,6 @@
 package kafka_random_producer;
 
-import dbmanagement.CommentsRepository;
 import dbmanagement.Database;
-import dbmanagement.ParticipantsRepository;
-import dbmanagement.ProposalRepository;
 import domain.Comment;
 import domain.Participant;
 import domain.Proposal;

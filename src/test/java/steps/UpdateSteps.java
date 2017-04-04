@@ -1,6 +1,5 @@
 package steps;
 
-import com.esotericsoftware.minlog.Log;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
