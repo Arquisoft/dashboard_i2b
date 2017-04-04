@@ -69,9 +69,9 @@ public class UpdateSteps {
     @And("^the interface has to be updated, including the list of most voted$")
     public void theInterfaceHasToBeUpdatedIncludingTheListOfMostVoted() throws Throwable {
         //Can't parse it another way
-        result = mvc.perform(get("/")).andReturn();
         Thread.sleep(5000);
-        Log.info(result.getResponse().getContentAsString());
+        result = mvc.perform(get("/")).andReturn();
+        Thread.sleep(1000);
         assertTrue(result.getResponse().getContentAsString()
                 .contains("<h4>Proposals in the system: <span>1</span></h4>"));
     }
