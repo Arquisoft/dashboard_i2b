@@ -29,14 +29,18 @@ public class DatabaseImpl implements Database {
     @Autowired
     private CommentsRepositoryCustom commentsCustomRepo;
 
-
-    public DatabaseImpl(ProposalRepository proposalRepo, CommentsRepository commentsRepo, ParticipantsRepository participantsRepo,
-                        ParticipantsRepositoryCustom participantsCustomRepo, ProposalsRepositoryCustom proposalsCustomRepo, CommentsRepositoryCustom commentsCustomRepo){
+    @Autowired
+    public DatabaseImpl(ProposalRepository proposalRepo
+                        , CommentsRepository commentsRepo
+                        , ParticipantsRepository participantsRepo
+                        , ParticipantsRepositoryCustom participantsCustomRepo
+                        , ProposalsRepositoryCustom proposalsCustomRepo
+                        , CommentsRepositoryCustom commentsCustomRepo){
         this.proposalRepo=proposalRepo;
         this.commentsRepo=commentsRepo;
         this.participantsRepo=participantsRepo;
         this.participantsCustomRepo=participantsCustomRepo;
-        this.participantsCustomRepo=participantsCustomRepo;
+        this.proposalsCustomRepo = proposalsCustomRepo;
         this.commentsCustomRepo=commentsCustomRepo;
     }
     @Override
