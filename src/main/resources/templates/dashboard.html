@@ -19,46 +19,59 @@
 
     <title>Dashboard</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js" ></script>
     <script>
         function patch() {
             var request = new XMLHttpRequest();
             request.open('PATCH', '/', true);
             request.send(null);
             $("#div_contenedor").load(location.href + " #div_contenedor");
+            $.ajax({
+                type: "GET",
+                dataType: "jsonp",
+                url: "http://localhost:8090/data/topVotes",
+                success: function (data) {
+                    var ctx = document.getElementsByTagName("CANVAS")[0];
+                    topVotesChart = new Chart(ctx, data);
+                    topVotesChart.update();
+                }
+            })
+
+
         }
         setInterval(patch, 3000);
     </script>
+
 </head>
 
 <body>
-    <div id="div_contenedor" class="container">
-      <div class="page-header">
-        <h1>Dashboard</h1>
-      </div>
+<div class="container">
+    <div id="div_contenedor">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+        </div>
         <div class="row">
             <div class="col-md-4">
-                <label>nº of participants in the system: <p th:text="${part.amount}">desu</p></label>
+                <div class="page-header">
+                    <h4>Participants in the system: <span th:text="${part.amount}"></span></h4>
+                </div>
             </div>
             <div class="col-md-4">
-                <label>nº of proposals in the system: <p th:text="${prop.amount}">desu</p></label>
+                <div class="page-header">
+                    <h4>Proposals in the system: <span th:text="${prop.amount}"></span></h4>
+                </div>
             </div>
             <div class="col-md-4">
-                <label>nº of comments in the system: <p th:text="${comm.amount}">desu</p></label>
+                <div class="page-header">
+                    <h4>Comments in the system: <span th:text="${comm.amount}"></span></h4>
+                </div>
             </div>
         </div>
-        <label>Top 5 voted proposals: </label>
         <div class="row">
-            <div class="col-md-4">
-                <table>
-                    <tr>
-                        <th>Author</th>
-                        <th>Votes</th>
-                    </tr>
-                    <tr th:each="proposal : ${prop.topVotes}">
-                        <td th:text="${proposal.author}"> author</td>
-                        <td th:text="${proposal.votes}"> votes</td>
-                    </tr>
-                </table>
+            <div class="page-header">
+                <h4>Top 5 voted proposals:</h4>
             </div>
 
             <div class="col-md-4">
@@ -89,5 +102,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

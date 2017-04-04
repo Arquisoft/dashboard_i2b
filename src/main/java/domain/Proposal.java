@@ -17,6 +17,9 @@ public class Proposal {
     private ObjectId _id;
 
     private String author;
+    private Date created;
+    private String title;
+    private String body;
     private String category;
     private int votes;
     private int minimalSupport;
@@ -25,7 +28,6 @@ public class Proposal {
     private List<Comment> comments;
     private List<String> votedUsernames;
 
-    private Date created;
 
     public Proposal(){
 

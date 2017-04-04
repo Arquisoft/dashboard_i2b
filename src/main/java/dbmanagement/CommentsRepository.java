@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
 public interface CommentsRepository extends MongoRepository<Comment, ObjectId>{
 
     List<Comment> findByProposal(Proposal prop);
+    Comment findByAuthorAndCreated(String author, Date created);
 
     long count();
 }
