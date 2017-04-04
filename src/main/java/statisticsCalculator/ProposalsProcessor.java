@@ -26,7 +26,7 @@ public class ProposalsProcessor{
         this.dat = dat;
         amount = dat.countProposals();
         topVotes = dat.findTop5ProposalsByVotes();
-        topCommented = dat.findTop5MostCommentedProposal();
+        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
     public Long getAmount() {
@@ -58,7 +58,7 @@ public class ProposalsProcessor{
     }
     //Be carefull, it may cause overhead in the db system.
     private void updateTopCommented() {
-        topCommented = dat.findTop5MostCommentedProposal();
+        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
 }
