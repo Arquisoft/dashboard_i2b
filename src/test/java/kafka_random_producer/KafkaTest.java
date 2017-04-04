@@ -15,7 +15,9 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import java.util.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -41,11 +43,14 @@ public class KafkaTest {
     @Autowired
     private CommentsRepository commentRepo;
 
+    private  String[] titleTemplate ={"What about building a wall?", "Bigger univeristy for oftware engineer", "Let's make uniovi great again",
+            "More efficient traffic lights", "New hospital near Corredoria"};
+
     @After
     public void tearDown() throws Exception {
-        proposalRepo.deleteAll();
-        participantRepo.deleteAll();
-        commentRepo.deleteAll();
+        //proposalRepo.deleteAll();
+        //participantRepo.deleteAll();
+        //commentRepo.deleteAll();
     }
 
     @Test
@@ -74,6 +79,8 @@ public class KafkaTest {
             Proposal proposal = new Proposal("Test Proposals", 50);
             proposal.setAuthor(generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10)));
             proposal.setVotes( rnd.nextInt(1000));
+            proposal.setTitle(titleTemplate[rnd.nextInt(titleTemplate.length)]);
+            proposal.setBody(generateRandomChars("abcdefghijklmnopqrstuvwxyz.,-",rnd.nextInt(1000)+500));
             tester.sendTestProposal(proposal);
             Thread.sleep(5000);
         }
@@ -104,16 +111,35 @@ public class KafkaTest {
                 "What a shame of ",
                 "You must be ashamed of doing this  "};
         Random rnd = new Random();
-        Proposal proposal = new Proposal("Test Proposals", 50);
-        proposal = proposalRepo.insert(proposal);
+        List<Proposal> proposals = new ArrayList<Proposal>();
+        for(int i=0;i<titleTemplate.length;i++){
+            Proposal proposal = new Proposal("Test Proposals", 50);
+            proposal.setTitle(titleTemplate[rnd.nextInt(titleTemplate.length)]);
+            proposals.add(proposalRepo.insert(proposal));
+
+        }
+
+
         for(int i = 0; i < LOOP_TEST; i++){
+            int number = rnd.nextInt(titleTemplate.length);
+            Proposal choosenProposal =  proposals.get(number);
             Comment c = new Comment("" + phrasesTemplate[rnd.nextInt(phrasesTemplate.length)] + "proposal",
-                    proposal,
+                   choosenProposal,
                     generateRandomChars("abcdefghijklmnopqrst",rnd.nextInt(10))
                     );
+
+            /*c=commentRepo.insert(c);
+            choosenProposal.getComments().add(c);
+            proposals.add(proposalRepo.insert(choosenProposal));
+            proposals.remove(choosenProposal);*/
+            choosenProposal.getComments().add(c);
+            //proposals.add(proposalRepo.insert(choosenProposal)); Se deberia actualizar con el nuevo id
+            
             tester.sendTestComment(c);
+
             Thread.sleep(5000);
         }
+
     }
 
     private String generateRandomChars(String candidateChars, int length) {

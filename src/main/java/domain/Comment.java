@@ -1,5 +1,7 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,6 +20,7 @@ public class Comment{
 
     private String text;
     @DBRef
+    @JsonBackReference
     private Proposal proposal;
     private String author;
     private Date created;
@@ -110,5 +113,16 @@ public class Comment{
         result = 31 * result + (author != null ? author.hashCode() : 0);
         result = 31 * result + (created != null ? created.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "_id=" + _id +
+                ", text='" + text + '\'' +
+                ", proposal=" + proposal +
+                ", author='" + author + '\'' +
+                ", created=" + created +
+                '}';
     }
 }

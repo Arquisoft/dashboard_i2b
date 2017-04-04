@@ -1,6 +1,7 @@
 package statisticsCalculator;
 
 import dbmanagement.Agrupations.ParticipantLocalization;
+import dbmanagement.Database;
 import dbmanagement.ParticipantsRepository;
 import dbmanagement.ParticipantsRepositoryCustom;
 import domain.Participant;
@@ -16,10 +17,8 @@ import java.util.List;
 public class ParticipantsProcessor{
 
     @Autowired
-    private ParticipantsRepository dat;
+    private Database dat;
 
-    @Autowired
-    private ParticipantsRepositoryCustom datCust;
 
     private Long amount;
     //private Map<String,Long> ageAgrupation;
@@ -41,10 +40,10 @@ public class ParticipantsProcessor{
     }
 
     @Autowired
-    public ParticipantsProcessor(ParticipantsRepository dat, ParticipantsRepositoryCustom datCust){
+    public ParticipantsProcessor(Database dat){
         this.dat=dat;
-        amount= dat.count();
-        nationAgrup = datCust.getParticipantsGroupByNationality();
+        amount= dat.countParticipants();
+        nationAgrup = dat.getParticipantsGroupByNationality();
     }
 
 

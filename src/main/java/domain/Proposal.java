@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,12 +17,15 @@ public class Proposal {
     @Id
     private ObjectId _id;
 
+    private String title;
     private String author;
     private String category;
     private int votes;
     private int minimalSupport;
+    private String body;
 
     @DBRef
+    @JsonManagedReference
     private List<Comment> comments;
     private List<String> votedUsernames;
 
@@ -41,6 +45,22 @@ public class Proposal {
 
     public ObjectId get_id() {
         return _id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public void setCategory(String category) {
@@ -106,10 +126,14 @@ public class Proposal {
     @Override
     public String toString() {
         return "Proposal{" +
-                "author='" + author + '\'' +
+                "_id=" + _id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
                 ", category='" + category + '\'' +
                 ", votes=" + votes +
                 ", minimalSupport=" + minimalSupport +
+                ", body='" + body + '\'' +
+                ", created=" + created +
                 '}';
     }
 
