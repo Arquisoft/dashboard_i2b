@@ -69,7 +69,7 @@ public class UpdateSteps {
         //Can't parse it another way
         MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
         result = mvc.perform(get("/")).andReturn();
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         assertTrue(result.getResponse().getContentAsString()
                 .contains("<h4>Proposals in the system: <span>1</span></h4>"));
     }
