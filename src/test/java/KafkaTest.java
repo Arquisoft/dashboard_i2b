@@ -1,9 +1,8 @@
-package kafka_random_producer;
-
 import dbmanagement.Database;
 import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
+import kafka_random_producer.KafkaTester;
 import main.Application;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class KafkaTest {
 
     private static final int LOOP_TEST = 5;
+
     @Autowired
     private KafkaTester tester;
 
@@ -100,7 +100,7 @@ public class KafkaTest {
         }
     }
 
-    //Prueba con comentarios
+    //Comment test
     @Test
     public void loopingTestComments() throws InterruptedException {
         String[] phrasesTemplate ={"Good ", "Excellent ", "I don't like that ", "I really like that ", "I enjoy the ",

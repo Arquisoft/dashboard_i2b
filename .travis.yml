@@ -5,6 +5,8 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 services:
 - mongodb
+addons:
+ firefox: "46.0"
 before_script:
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
@@ -18,4 +20,3 @@ before_install:
 - sleep 5
 - nohup bash -c "cd kafka && bin/kafka-server-start.sh config/server.properties &"
 - sleep 15
-

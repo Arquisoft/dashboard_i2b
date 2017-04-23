@@ -16,8 +16,6 @@ public class ParticipantsProcessor{
 
     @Autowired
     private Database dat;
-
-
     private Long amount;
     //private Map<String,Long> ageAgrupation;
     private List<ParticipantLocalization> nationAgrup;

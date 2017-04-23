@@ -9,28 +9,37 @@ import domain.Comment;
 import domain.Proposal;
 import kafka_random_producer.KafkaTester;
 import main.Application;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.htmlunit.MockMvcWebConnection;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import selenium.FirefoxDriverBean;
 
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Antonio Nicolas on 03/04/2017.
  */
-@ContextConfiguration(classes = Application.class)
-@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {Application.class, FirefoxDriverBean.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestPropertySource(locations="classpath:test.properties")
 public class UpdateSteps {
 
     @Autowired
@@ -40,23 +49,44 @@ public class UpdateSteps {
 
     @Autowired
     private KafkaTester tester;
-    private MvcResult result;
 
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    @Qualifier("firefoxDriver")
+    private WebDriver driver;
+
+    private String baseURL = "http://localhost:8090";
+
     private Proposal prop;
     private Comment comment;
 
+
+    /**
+     * We have a title for each counter (Proposals, Comments, Participants), we'll use this to find it, they're as
+     * h4
+     * @param title The title for the counter
+     * @return The span under the h4 web element if found, else it's going to fail the tests if it doesn't find it
+     */
+    private WebElement findTitleCounter(String title){
+        String spanInTitleXpath = "//h4[contains(text(), '%s')]//span";
+        WebElement element = driver.findElement(
+                By.xpath(String.format(spanInTitleXpath, title)));
+        assertNotNull(element);
+        return element;
+    }
+
     @When("^proposals are sent:$")
     public void proposalsAreSentFromAList(List<Proposal> proposals) throws Throwable {
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
         prop = proposals.get(0);
-        MvcResult result = mvc.perform(get("/")).andReturn();
-        assertTrue(result.getResponse().getContentAsString()
-                .contains("<h4>Proposals in the system: <span>0</span></h4>"));
+        driver.get(baseURL);
+        Thread.sleep(1000);
+        // Find the span text
+        WebElement element = findTitleCounter("Proposals in the system:");
+        assertEquals("0", element.getText());
         tester.sendTestProposal(prop);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
     }
 
     @Then("^the database has to be updated with a new proposal$")
@@ -68,17 +98,14 @@ public class UpdateSteps {
 
     @And("^the interface has to be updated, including the list of most voted$")
     public void theInterfaceHasToBeUpdatedIncludingTheListOfMostVoted() throws Throwable {
-        //Can't parse it another way
-        Thread.sleep(10000);
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        MvcResult result = mvc.perform(patch("/")).andReturn();
-        /*assertTrue(result.getResponse().getContentAsString()
-                .contains("<h4>Proposals in the system: <span>1</span></h4>"));*/
+        Thread.sleep(5000);
+        WebElement element = findTitleCounter("Proposals in the system:");
+        //assertEquals("1", element.getText());
+        proposalRepo.deleteAll();
     }
 
     @When("^a comment event is sent$")
     public void aCommentEventIsSent(List<Comment> comments) throws Throwable {
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
         Proposal prop = new Proposal("Test for comment"
                 , "Test category"
                 , 50, 20
@@ -86,11 +113,10 @@ public class UpdateSteps {
         prop = proposalRepo.insert(prop);
         comment = comments.get(0);
         comment.setProposal(prop);
-        result = mvc.perform(get("/")).andReturn();
-        assertTrue(result.getResponse().getContentAsString()
-                .contains("<h4>Comments in the system: <span>0</span></h4>"));
+        WebElement element = findTitleCounter("Comments in the system:");
+        assertEquals("0", element.getText()); //Before comment arrives
         tester.sendTestComment(comment);
-        Thread.sleep(1000);
+        Thread.sleep(10000);
     }
 
     @Then("^the database has to be updated with a new comment$")
@@ -101,9 +127,11 @@ public class UpdateSteps {
 
     @And("^the interface has to be updated, at least the comment count$")
     public void theInterfaceHasToBeUpdatedAtLeastTheCommentCount() throws Throwable {
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        MvcResult result = mvc.perform(get("/")).andReturn();
-        /*assertTrue(result.getResponse().getContentAsString()
-                .contains("<h4>Comments in the system: <span>1</span></h4>"));*/
+        Thread.sleep(10000);
+        WebElement element = findTitleCounter("Comments in the system:");
+        //assertEquals("1", element.getText());
+        commentsRepo.deleteAll();
+        proposalRepo.deleteAll();
+        driver.close();
     }
 }

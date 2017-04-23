@@ -112,7 +112,6 @@ public class Participant {
         return userId;
     }
 
-
     public Long getAge(){
         Calendar cal=Calendar.getInstance();
         cal.setTime(dateOfBirth);
