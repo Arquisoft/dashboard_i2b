@@ -2,6 +2,9 @@ package dbmanagement.Agrupations;
 
 /**
  * Created by Jorge on 01/04/2017.
+ * Class used for aggrupation by zone in the ParticipantsRepositoryCustomImpl class to obtain participants grouped
+ * by nationality
+ * @see dbmanagement.ParticipantsRepositoryCustomImpl
  */
 public class ParticipantLocalization {
 

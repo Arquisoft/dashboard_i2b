@@ -13,8 +13,6 @@ import java.util.List;
 @Repository
 public interface ProposalRepository extends MongoRepository<Proposal, String> {
 
-    List<Proposal> findByAuthor(String autor);
-
     Proposal findByAuthorAndCategoryAndCreated(String author, String category, Date created);
 
     List<Proposal> findTop5ByOrderByVotesDesc();

@@ -36,26 +36,18 @@ public class TopicListeners {
     @KafkaListener(topics = "proposal", containerFactory = "proposalContainerFactory")
     public void listenProposal(Proposal data) {
         logger.info("New message received: \"" + data + "\"");
-        proposalRepository.insert(data);
         proc.update(data);
     }
 
     @KafkaListener(topics = "participant", containerFactory = "participantContainerFactory")
     public void listen(Participant data){
         logger.info("New participant recieved!!!");
-        participantsRepo.insert(data);
         proc.update(data);
     }
 
     @KafkaListener(topics = "topicComment", containerFactory = "commentContainerFactory")
     public void listen(Comment data){
         logger.info("New comment received!");
-        data = commentsRepo.insert(data); //Update the comment with the Mongo ID
-        Proposal prop = proposalRepository.findOne(data.getProposal().get_id());
-        //Get the proposal and add the comment
-        prop.getComments().add(data);
-        //Update the proposal
-        proposalRepository.save(prop);
         proc.update(data);
     }
 
@@ -108,9 +100,6 @@ public class TopicListeners {
         Participant par = participantsRepo.findOne(new ObjectId(arr[1]));
         prop.getVotedUsernames().remove(par.getUserId());
 
-        //Save data
-        proposalRepository.save(prop);
-
         //Update data
         proc.update(prop);
     }
@@ -128,9 +117,6 @@ public class TopicListeners {
 
         //Remove the vote from the comment
         com.getVotes().remove(par.getUserId());
-
-        //Save data
-        commentsRepo.save(com);
 
         //Update data
         proc.update(com);

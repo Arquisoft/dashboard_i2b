@@ -4,12 +4,14 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 /**
  * Created by Nicolás on 29/03/2017.
  */
+@Document(collection = "comments")
 public class Comment{
 
     @Id

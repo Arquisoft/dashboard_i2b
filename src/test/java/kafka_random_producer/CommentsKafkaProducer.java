@@ -1,5 +1,6 @@
 package kafka_random_producer;
 
+import dbmanagement.Database;
 import domain.Comment;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class CommentsKafkaProducer {
     private static final Logger logger = Logger.getLogger(ProposalKafkaProducer.class);
 
     @Autowired
+    private Database dat;
+
+    @Autowired
     private KafkaTemplate<String, Comment> kafkaTemplate;
 
     public void send(String topic, Comment data) {
@@ -27,6 +31,7 @@ public class CommentsKafkaProducer {
             @Override
             public void onSuccess(SendResult<String, Comment> result) {
                 logger.info("Success on sending message \"" + data + "\" to topic " + topic);
+                dat.save(data);
             }
 
             @Override

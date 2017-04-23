@@ -32,7 +32,7 @@ public class KafkaListenerFactory {
 
     @Bean
     public ConsumerFactory<String, Participant> consumerParticipantFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerJsonConfig(),
+        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
                 null, new JsonDeserializer<>(Participant.class));
     }
 
@@ -48,7 +48,7 @@ public class KafkaListenerFactory {
 
     @Bean
     public ConsumerFactory<String, Proposal> consumerProposalFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerJsonConfig(),
+        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
                 null, new JsonDeserializer<>(Proposal.class));
     }
 
@@ -64,7 +64,7 @@ public class KafkaListenerFactory {
 
     @Bean
     public ConsumerFactory<String, Comment> consumerCommentFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerJsonConfig(),
+        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
                 null, new JsonDeserializer<>(Comment.class));
     }
 
@@ -80,6 +80,6 @@ public class KafkaListenerFactory {
 
     @Bean
     public ConsumerFactory<String, String> consumerVoteFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaConfig.consumerStringConfig());
+        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerStringConfig());
     }
 }

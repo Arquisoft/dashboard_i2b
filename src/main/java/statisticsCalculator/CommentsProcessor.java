@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentsProcessor{
 
-    private Long amount;
-
-
     @Autowired
     private Database dat;
+
+    private Long amount;
+
 
     public CommentsProcessor( Database dat){
         this.dat=dat;
@@ -30,11 +30,4 @@ public class CommentsProcessor{
     public Long getAmount() {
         return amount;
     }
-
-    /*
-         Ideas:
-
-         Comments with most length
-
-     */
 }

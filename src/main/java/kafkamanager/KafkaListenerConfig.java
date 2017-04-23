@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Antonio Nicolas on 01/04/2017.
  */
-public class KafkaConfig {
+public class KafkaListenerConfig {
 
     private static Map<String, Object> baseConfig(){
         Map<String, Object> props = new HashMap<>();

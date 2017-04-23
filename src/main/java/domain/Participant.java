@@ -12,7 +12,6 @@ import java.util.Date;
 /**
  * Created by Damian on 06/02/2017.
  */
-
 @Document(collection ="users")
 public class Participant {
 
@@ -111,7 +110,6 @@ public class Participant {
     public String getUserId() {
         return userId;
     }
-
 
     public Long getAge(){
         Calendar cal=Calendar.getInstance();

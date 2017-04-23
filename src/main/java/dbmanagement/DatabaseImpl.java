@@ -27,22 +27,18 @@ public class DatabaseImpl implements Database {
     private ParticipantsRepositoryCustom participantsCustomRepo;
     @Autowired
     private ProposalsRepositoryCustom proposalsCustomRepo;
-    @Autowired
-    private CommentsRepositoryCustom commentsCustomRepo;
 
     @Autowired
     public DatabaseImpl(ProposalRepository proposalRepo
                         , CommentsRepository commentsRepo
                         , ParticipantsRepository participantsRepo
                         , ParticipantsRepositoryCustom participantsCustomRepo
-                        , ProposalsRepositoryCustom proposalsCustomRepo
-                        , CommentsRepositoryCustom commentsCustomRepo){
+                        , ProposalsRepositoryCustom proposalsCustomRepo){
         this.proposalRepo=proposalRepo;
         this.commentsRepo=commentsRepo;
         this.participantsRepo=participantsRepo;
         this.participantsCustomRepo=participantsCustomRepo;
         this.proposalsCustomRepo = proposalsCustomRepo;
-        this.commentsCustomRepo=commentsCustomRepo;
     }
 
 

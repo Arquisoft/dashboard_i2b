@@ -2,6 +2,7 @@ package domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by Nicolás on 29/03/2017.
  */
+@Document(collection = "proposals")
 public class Proposal {
 
     @Id
