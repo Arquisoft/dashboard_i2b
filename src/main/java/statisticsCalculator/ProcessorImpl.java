@@ -1,10 +1,14 @@
 package statisticsCalculator;
 
+import dbmanagement.Agrupations.ParticipantLocalization;
+import dbmanagement.Agrupations.ProposalCommented;
 import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Jorge on 02/04/2017.
@@ -41,4 +45,33 @@ public class ProcessorImpl implements Processor {
         commProc.update(data);
     }
 
+    @Override
+    public List<ParticipantLocalization> getNationAgrup() {
+        return partProc.getNationAgrup();
+    }
+
+    @Override
+    public List<ProposalCommented> getTopCommented() {
+        return propProc.getTopCommented();
+    }
+
+    @Override
+    public List<Proposal> getTopVotes() {
+        return propProc.getTopVotes();
+    }
+
+    @Override
+    public Long getParticipantsAmount() {
+        return partProc.getAmount();
+    }
+
+    @Override
+    public Long getProposalsAmount() {
+        return propProc.getAmount();
+    }
+
+    @Override
+    public Long getCommentsAmount() {
+        return commProc.getAmount();
+    }
 }

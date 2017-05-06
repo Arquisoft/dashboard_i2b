@@ -43,20 +43,8 @@ public class DatabaseImpl implements Database {
 
 
     @Override
-    public Proposal findPropByAuthorAndCategoryAndCreated(String author, String category, Date created) {
+    public Proposal findProposal(String author, String category, Date created) {
         return proposalRepo.findByAuthorAndCategoryAndCreated(author,category,created);
-    }
-
-    @Override
-    public List<Participant> getParticipants() { return participantsRepo.findAll(); }
-    @Override
-    public List<Proposal> getProposals() {
-        return proposalRepo.findAll();
-    }
-
-    @Override
-    public List<Comment> getComments() {
-        return commentsRepo.findAll();
     }
 
     @Override

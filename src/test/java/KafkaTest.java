@@ -60,7 +60,7 @@ public class KafkaTest {
         proposal.setCreated(new Date());
         tester.sendTestProposal(proposal);
         Thread.sleep(10000);
-        Proposal test = database.findPropByAuthorAndCategoryAndCreated(
+        Proposal test = database.findProposal(
                 proposal.getAuthor()
                 , proposal.getCategory()
                 , proposal.getCreated());

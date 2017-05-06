@@ -15,26 +15,20 @@ import java.util.List;
 
 public interface Database {
 
-    //Crud
-    Proposal findPropByAuthorAndCategoryAndCreated(String author, String category, Date created);
-
-    List<Participant> getParticipants();
-    List<Proposal> getProposals();
-    List<Comment> getComments();
-
     Proposal insert(Proposal proposal);
-
     Participant save(Participant participant);
     Proposal save(Proposal proposal);
     Comment save(Comment comment);
 
-    void reset();
     void delete(Proposal proposal);
-
+    void reset();
 
     Long countParticipants();
     Long countProposals();
     Long countComments();
+
+    //Crud
+    Proposal findProposal(String author, String category, Date created);
 
     List<ParticipantLocalization> getParticipantsGroupByNationality();
 

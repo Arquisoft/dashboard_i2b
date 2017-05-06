@@ -16,12 +16,11 @@ public class CommentsProcessor{
 
     private Long amount;
 
-
+    @Autowired
     public CommentsProcessor( Database dat){
         this.dat=dat;
         amount=dat.countComments();
     }
-
 
     public void update(Comment data){
         amount++;

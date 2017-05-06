@@ -17,11 +17,15 @@ public class ParticipantsProcessor{
     @Autowired
     private Database dat;
     private Long amount;
-    //private Map<String,Long> ageAgrupation;
     private List<ParticipantLocalization> nationAgrup;
 
-    //In order to personalize the ageAgrupation ranges
-    //private int[] limits = {0,17,25,35,50,70,90};
+
+    @Autowired
+    public ParticipantsProcessor(Database dat){
+        this.dat=dat;
+        amount= dat.countParticipants();
+        nationAgrup = dat.getParticipantsGroupByNationality();
+    }
 
     public Long getAmount() {
         return amount;
@@ -35,18 +39,9 @@ public class ParticipantsProcessor{
         return nationAgrup;
     }
 
-    @Autowired
-    public ParticipantsProcessor(Database dat){
-        this.dat=dat;
-        amount= dat.countParticipants();
-        nationAgrup = dat.getParticipantsGroupByNationality();
-    }
-
-
     public void update(Participant participant){
         amount++;
         updateNationAgroup(participant);
-
     }
 
     private void updateNationAgroup(Participant participant){
@@ -62,14 +57,4 @@ public class ParticipantsProcessor{
             nationAgrup.add(new ParticipantLocalization(nationality,1));
         }
     }
-    /*
-    Ideas:
-        Amount of registered Users
-        Amount of users per nationality
-        Amount of users by ranges of age
-        Users with the same name (useless for Council)
-
-     */
-
-
 }

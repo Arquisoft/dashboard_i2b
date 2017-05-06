@@ -53,10 +53,10 @@ public class ProposalsProcessor{
         if(position<5) {
             topVotes.add(position, data);
             if(topVotes.size()>=6)
-                topVotes.remove(topVotes.size() - 1); //Quitamos el ultimo
+                topVotes.remove(topVotes.size() - 1); //Take out the last one
         }
     }
-    //Be carefull, it may cause overhead in the db system.
+    //Be careful, it may cause overhead in the db system.
     private void updateTopCommented() {
         //topCommented = dat.findTop5MostCommentedProposal();
     }

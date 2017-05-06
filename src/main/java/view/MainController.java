@@ -12,50 +12,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import statisticsCalculator.CommentsProcessor;
 import statisticsCalculator.ParticipantsProcessor;
+import statisticsCalculator.Processor;
 import statisticsCalculator.ProposalsProcessor;
 
-@EnableWebMvc
 @Controller
 public class MainController {
 
     private static final Logger logger = Logger.getLogger(MainController.class);
 
     //References to the different processors.
-    //MEJOR HACERLOS SINGLETONS SI LOS HACEMOS ASÍ
     @Autowired
-    private ParticipantsProcessor parProc;
-    @Autowired
-    private CommentsProcessor comProc;
-    @Autowired
-    private ProposalsProcessor propProc;
+    private Processor proc;
 
     @RequestMapping("/")
     public String landing(Model model) {
-        model.addAttribute("voteList", propProc.getTopVotes());
         return "dashboard";
     }
 
-    @ModelAttribute("part")
-    public ParticipantsProcessor getParProc() {
-        return parProc;
-    }
-
-    @ModelAttribute("comm")
-    public CommentsProcessor getComProc() {
-        return comProc;
-    }
-
-    @ModelAttribute("prop")
-    public ProposalsProcessor getPropProc() {
-        return propProc;
+    @ModelAttribute(name = "proc")
+    public Processor getProccesor(){
+        return proc;
     }
 
     @PatchMapping("/")
     public String update(Model model){
         Log.info("Patch request received, updating...");
-        model.asMap().replace("prop", propProc);
-        model.asMap().replace("comm", comProc);
-        model.asMap().replace("part", parProc);
+        model.asMap().replace("proc", proc);
         return "dashboard";
     }
 }

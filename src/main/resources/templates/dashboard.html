@@ -45,17 +45,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="page-header">
-                    <h4>Participants in the system: <span th:text="${part.amount}"></span></h4>
+                    <h4>Participants in the system: <span th:text="${proc.participantsAmount}"></span></h4>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="page-header">
-                    <h4>Proposals in the system: <span th:text="${prop.amount}"></span></h4>
+                    <h4>Proposals in the system: <span th:text="${proc.proposalsAmount}"></span></h4>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="page-header">
-                    <h4>Comments in the system: <span th:text="${comm.amount}"></span></h4>
+                    <h4>Comments in the system: <span th:text="${proc.commentsAmount}"></span></h4>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                         <th>Title</th>
                         <th>Votes</th>
                     </tr>
-                    <tr th:each="proposal : ${prop.topVotes}">
+                    <tr th:each="proposal : ${proc.topVotes}">
                         <td th:text="${proposal.title}"> author</td>
                         <td th:text="${proposal.votes}"> votes</td>
                     </tr>
@@ -80,7 +80,7 @@
                         <th>Nationality</th>
                         <th>Amount</th>
                     </tr>
-                    <tr th:each="localizationData : ${part.nationAgrup}">
+                    <tr th:each="localizationData : ${proc.nationAgrup}">
                         <td th:text="${localizationData.nationality}"> author</td>
                         <td th:text="${localizationData.amount}"> votes</td>
                     </tr>
@@ -93,7 +93,7 @@
                         <th>Title</th>
                         <th>Amount</th>
                     </tr>
-                    <tr th:each="proposalData : ${prop.topCommented}">
+                    <tr th:each="proposalData : ${proc.topCommented}">
                         <td th:text="${proposalData.title}"> author</td>
                         <td th:text="${proposalData.amountComments}"> votes</td>
                     </tr>
