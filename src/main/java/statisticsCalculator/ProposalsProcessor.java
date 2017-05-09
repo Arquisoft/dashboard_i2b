@@ -45,6 +45,7 @@ public class ProposalsProcessor{
         Proposal prop = dat.findProposal(id);
         amount++;
         updateTopVotes(prop);
+
     }
 
     public void updateVote(String data){
@@ -61,6 +62,10 @@ public class ProposalsProcessor{
             if(topVotes.size()>=6)
                 topVotes.remove(topVotes.size() - 1); //Take out the last one
         }
+    }
+
+    protected void updateTopCommented(){
+        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
 }

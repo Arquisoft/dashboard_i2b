@@ -34,6 +34,7 @@ public class CommentsProcessor{
 
     public void updateCreate(String data){
         amount++;
+        propPorc.updateTopCommented();
     }
     public void updateVote(String data){}
 }

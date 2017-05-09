@@ -18,8 +18,6 @@ import java.util.List;
 public class ProcessorImpl implements Processor {
 
     @Autowired
-    private ParticipantsProcessor partProc;
-    @Autowired
     private ProposalsProcessor propProc;
     @Autowired
     private CommentsProcessor commProc;
@@ -28,16 +26,11 @@ public class ProcessorImpl implements Processor {
     private Database dat;
 
     @Autowired
-    public ProcessorImpl(ParticipantsProcessor partProc, ProposalsProcessor propProc, CommentsProcessor commProc) {
-        this.partProc=partProc;
+    public ProcessorImpl(ProposalsProcessor propProc, CommentsProcessor commProc) {
         this.propProc=propProc;
         this.commProc=commProc;
     }
 
-    @Override
-    public List<ParticipantLocalization> getNationAgrup() {
-        return partProc.getNationAgrup();
-    }
 
     @Override
     public List<ProposalCommented> getTopCommented() {
@@ -49,10 +42,6 @@ public class ProcessorImpl implements Processor {
         return propProc.getTopVotes();
     }
 
-    @Override
-    public Long getParticipantsAmount() {
-        return partProc.getAmount();
-    }
 
     @Override
     public Long getProposalsAmount() {

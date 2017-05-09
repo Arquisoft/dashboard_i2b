@@ -25,14 +25,11 @@ public interface Database {
     void delete(Proposal proposal);
     void reset();
 
-    Long countParticipants();
     Long countProposals();
     Long countComments();
 
     //Crud
     Proposal findProposal(String author, String category, Date created);
-
-    List<ParticipantLocalization> getParticipantsGroupByNationality();
 
     List<Proposal> findTop5ProposalsByVotes();
 

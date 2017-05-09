@@ -85,10 +85,6 @@ public class DatabaseImpl implements Database {
         proposalRepo.delete(proposal);
     }
 
-    @Override
-    public Long countParticipants() {
-        return participantsRepo.count();
-    }
 
     @Override
     public Long countProposals() {
@@ -100,10 +96,6 @@ public class DatabaseImpl implements Database {
         return commentsRepo.count();
     }
 
-    @Override
-    public List<ParticipantLocalization> getParticipantsGroupByNationality() {
-        return participantsCustomRepo.getParticipantsGroupByNationality();
-    }
 
     @Override
     public List<Proposal> findTop5ProposalsByVotes() {

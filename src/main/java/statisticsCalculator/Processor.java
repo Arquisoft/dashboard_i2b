@@ -20,11 +20,9 @@ public interface Processor {
     void updatePropCreate(String data);
     void updatePropVote(String data);
 
-    List<ParticipantLocalization> getNationAgrup();
     List<ProposalCommented> getTopCommented();
     List<Proposal> getTopVotes();
 
-    Long getParticipantsAmount();
     Long getProposalsAmount();
     Long getCommentsAmount();
 }
