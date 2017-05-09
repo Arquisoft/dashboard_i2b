@@ -13,6 +13,8 @@ public class CommentsProcessor{
 
     @Autowired
     private Database dat;
+    @Autowired
+    private ProposalsProcessor propPorc;
 
     private Long amount;
 
@@ -29,4 +31,9 @@ public class CommentsProcessor{
     public Long getAmount() {
         return amount;
     }
+
+    public void updateCreate(String data){
+        amount++;
+    }
+    public void updateVote(String data){}
 }

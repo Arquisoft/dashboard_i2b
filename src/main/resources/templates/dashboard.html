@@ -45,11 +45,6 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="page-header">
-                    <h4>Participants in the system: <span th:text="${proc.participantsAmount}"></span></h4>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="page-header">
                     <h4>Proposals in the system: <span th:text="${proc.proposalsAmount}"></span></h4>
                 </div>
             </div>
@@ -70,19 +65,6 @@
                     <tr th:each="proposal : ${proc.topVotes}">
                         <td th:text="${proposal.title}"> author</td>
                         <td th:text="${proposal.votes}"> votes</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <h4>Participants by nationality: </h4>
-                <table class="table table-striped">
-                    <tr>
-                        <th>Nationality</th>
-                        <th>Amount</th>
-                    </tr>
-                    <tr th:each="localizationData : ${proc.nationAgrup}">
-                        <td th:text="${localizationData.nationality}"> author</td>
-                        <td th:text="${localizationData.amount}"> votes</td>
                     </tr>
                 </table>
             </div>

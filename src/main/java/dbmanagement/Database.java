@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface Database {
 
+    Proposal findProposal(String id);
+
     Proposal insert(Proposal proposal);
     Participant save(Participant participant);
     Proposal save(Proposal proposal);

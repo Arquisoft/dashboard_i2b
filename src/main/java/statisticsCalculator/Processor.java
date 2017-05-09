@@ -15,9 +15,10 @@ import java.util.List;
  */
 public interface Processor {
 
-    void update(Participant data);
-    void update(Proposal data);
-    void update(Comment data);
+    void updateComCreate(String data);
+    void updateComVote(String data);
+    void updatePropCreate(String data);
+    void updatePropVote(String data);
 
     List<ParticipantLocalization> getNationAgrup();
     List<ProposalCommented> getTopCommented();
@@ -26,5 +27,4 @@ public interface Processor {
     Long getParticipantsAmount();
     Long getProposalsAmount();
     Long getCommentsAmount();
-
 }

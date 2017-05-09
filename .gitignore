@@ -56,6 +56,4 @@ local.properties
 *.iml
 .idea
 
-.idea/
 dashboard0.iml
-dashboard_i2b.iml

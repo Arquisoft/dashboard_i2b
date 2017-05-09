@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -25,9 +26,9 @@ public class Comment{
     @DBRef
     private Proposal proposal;
 
-    private List<String> votedUsernames;
+    private List<String> votedUsernames = new ArrayList<>();
+    private List<String> votes = new ArrayList<>();
 
-    private List<String> votes;
     private long num;
 
     public Comment(){

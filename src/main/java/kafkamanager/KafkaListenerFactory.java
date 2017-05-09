@@ -1,6 +1,5 @@
 package kafkamanager;
 
-import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +10,6 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 /**
  * Created by herminio on 26/12/16.
@@ -20,66 +18,19 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @EnableKafka
 public class KafkaListenerFactory {
 
-    @Bean(name = "participantContainerFactory")
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Participant>> participantContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Participant> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerParticipantFactory());
-        factory.setConcurrency(3);
-        factory.getContainerProperties().setPollTimeout(3000);
-        return factory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, Participant> consumerParticipantFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
-                null, new JsonDeserializer<>(Participant.class));
-    }
-
-    @Bean(name = "proposalContainerFactory")
+    @Bean(name = "containerFactory")
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Proposal>> proposalContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Proposal> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerProposalFactory());
+        factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
         factory.getContainerProperties().setPollTimeout(3000);
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, Proposal> consumerProposalFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
-                null, new JsonDeserializer<>(Proposal.class));
-    }
-
-    @Bean(name = "commentContainerFactory")
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Comment>> commentContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Comment> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerCommentFactory());
-        factory.setConcurrency(3);
-        factory.getContainerProperties().setPollTimeout(3000);
-        return factory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, Comment> consumerCommentFactory() {
-        return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerJsonConfig(),
-                null, new JsonDeserializer<>(Comment.class));
-    }
-
-    @Bean(name = "voteContainerFactory")
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> voteContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerVoteFactory());
-        factory.setConcurrency(3);
-        factory.getContainerProperties().setPollTimeout(3000);
-        return factory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, String> consumerVoteFactory() {
+    public ConsumerFactory<String, Proposal> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(KafkaListenerConfig.consumerStringConfig());
     }
+
 }

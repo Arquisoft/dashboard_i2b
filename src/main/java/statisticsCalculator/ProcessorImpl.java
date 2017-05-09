@@ -2,6 +2,7 @@ package statisticsCalculator;
 
 import dbmanagement.Agrupations.ParticipantLocalization;
 import dbmanagement.Agrupations.ProposalCommented;
+import dbmanagement.Database;
 import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
@@ -23,26 +24,14 @@ public class ProcessorImpl implements Processor {
     @Autowired
     private CommentsProcessor commProc;
 
+    @Autowired
+    private Database dat;
+
+    @Autowired
     public ProcessorImpl(ParticipantsProcessor partProc, ProposalsProcessor propProc, CommentsProcessor commProc) {
         this.partProc=partProc;
         this.propProc=propProc;
         this.commProc=commProc;
-    }
-
-    @Override
-    public void update(Participant data){
-        partProc.update(data);
-    }
-
-    @Override
-    public void update(Proposal data){
-        propProc.update(data);
-    }
-
-    @Override
-    public void update(Comment data){
-        propProc.updateCommentReceived(); //we have to update the ProposalsProcessor in order to have
-        commProc.update(data);
     }
 
     @Override
@@ -74,4 +63,25 @@ public class ProcessorImpl implements Processor {
     public Long getCommentsAmount() {
         return commProc.getAmount();
     }
+
+    @Override
+    public void updatePropCreate(String data) {
+        propProc.updateCreate(data);
+    }
+
+    @Override
+    public void updatePropVote(String data) {
+        propProc.updateVote(data);
+    }
+
+    @Override
+    public void updateComCreate(String data) {
+        commProc.updateCreate(data);
+    }
+
+    @Override
+    public void updateComVote(String data) {
+        commProc.updateVote(data);
+    }
+
 }

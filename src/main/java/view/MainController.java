@@ -9,11 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import statisticsCalculator.CommentsProcessor;
-import statisticsCalculator.ParticipantsProcessor;
 import statisticsCalculator.Processor;
-import statisticsCalculator.ProposalsProcessor;
 
 @Controller
 public class MainController {
@@ -26,6 +22,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String landing(Model model) {
+        model.addAttribute("proc", proc);
         return "dashboard";
     }
 

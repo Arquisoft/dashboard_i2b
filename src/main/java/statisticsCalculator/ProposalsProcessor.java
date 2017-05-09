@@ -39,13 +39,19 @@ public class ProposalsProcessor{
 
     public List<ProposalCommented> getTopCommented(){ return topCommented; }
 
-    public void update(Proposal data){
+    public void updateCreate(String data){
+        String[] elements = data.split(":");
+        String id = elements[1].replace("}", "").replace("\"", "");
+        Proposal prop = dat.findProposal(id);
         amount++;
-        updateTopVotes(data);
+        updateTopVotes(prop);
     }
 
-    public void updateCommentReceived(){
-        updateTopCommented();
+    public void updateVote(String data){
+        String[]  parsedData = data.replaceAll("\\{","").replaceAll("}","").split(":");
+        String id = parsedData[0].substring(2);
+        Proposal prop = dat.findProposal(id);
+        updateTopVotes(prop);
     }
 
     private void updateTopVotes(Proposal data) {
@@ -55,10 +61,6 @@ public class ProposalsProcessor{
             if(topVotes.size()>=6)
                 topVotes.remove(topVotes.size() - 1); //Take out the last one
         }
-    }
-    //Be careful, it may cause overhead in the db system.
-    private void updateTopCommented() {
-        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
 }

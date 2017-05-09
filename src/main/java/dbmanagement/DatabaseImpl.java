@@ -48,6 +48,11 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
+    public Proposal findProposal(String id) {
+        return proposalRepo.findOne(id);
+    }
+
+    @Override
     public Proposal insert(Proposal proposal) {
         return proposalRepo.insert(proposal);
     }

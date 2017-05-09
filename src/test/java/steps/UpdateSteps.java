@@ -9,7 +9,6 @@ import domain.Comment;
 import domain.Proposal;
 import kafka_random_producer.KafkaTester;
 import main.Application;
-import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,13 +16,8 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import selenium.FirefoxDriverBean;
 
@@ -58,9 +52,6 @@ public class UpdateSteps {
 
     private String baseURL = "http://localhost:8090";
 
-    private Proposal prop;
-    private Comment comment;
-
 
     /**
      * We have a title for each counter (Proposals, Comments, Participants), we'll use this to find it, they're as
@@ -78,24 +69,16 @@ public class UpdateSteps {
 
     @When("^proposals are sent:$")
     public void proposalsAreSentFromAList(List<Proposal> proposals) throws Throwable {
-        prop = proposals.get(0);
+        Proposal prop = proposals.get(0);
         driver.get(baseURL);
         Thread.sleep(1000);
         // Find the span text
         WebElement element = findTitleCounter("Proposals in the system:");
+        tester.sendTestProposalCreate(prop);
         assertEquals("0", element.getText());
-        tester.sendTestProposal(prop);
-        Thread.sleep(10000);
     }
 
-    @Then("^the database has to be updated with a new proposal$")
-    public void theDatabaseHasToBeUpdatedNewProposal() throws Throwable {
-        Proposal test =
-                proposalRepo.findByAuthorAndCategoryAndCreated(prop.getAuthor(), prop.getCategory(), prop.getCreated());
-        assertEquals(prop, test);
-    }
-
-    @And("^the interface has to be updated, including the list of most voted$")
+    @Then("^the interface has to be updated, including the list of most voted$")
     public void theInterfaceHasToBeUpdatedIncludingTheListOfMostVoted() throws Throwable {
         Thread.sleep(5000);
         WebElement element = findTitleCounter("Proposals in the system:");
@@ -110,23 +93,16 @@ public class UpdateSteps {
                 , 50, 20
                 , new Date());
         prop = proposalRepo.insert(prop);
-        comment = comments.get(0);
+        Comment comment = comments.get(0);
         comment.setProposal(prop);
         WebElement element = findTitleCounter("Comments in the system:");
         assertEquals("0", element.getText()); //Before comment arrives
-        tester.sendTestComment(comment);
-        Thread.sleep(10000);
+        tester.sendTestCommentCreate(comment);
     }
 
-    @Then("^the database has to be updated with a new comment$")
-    public void theDatabaseHasToBeUpdatedNewComment() throws Throwable {
-        Comment test = commentsRepo.findByAuthorAndCreated(comment.getAuthor(), comment.getCreated());
-        assertEquals(comment, test);
-    }
-
-    @And("^the interface has to be updated, at least the comment count$")
+    @Then("^the interface has to be updated, at least the comment count$")
     public void theInterfaceHasToBeUpdatedAtLeastTheCommentCount() throws Throwable {
-        Thread.sleep(10000);
+        Thread.sleep(3000);
         WebElement element = findTitleCounter("Comments in the system:");
         //assertEquals("1", element.getText());
         commentsRepo.deleteAll();

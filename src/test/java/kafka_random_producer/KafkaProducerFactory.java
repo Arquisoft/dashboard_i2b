@@ -1,8 +1,6 @@
 package kafka_random_producer;
 
-import domain.Comment;
 import domain.Participant;
-import domain.Proposal;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -24,21 +22,6 @@ import java.util.Map;
 public class KafkaProducerFactory {
 
     @Bean
-    public ProducerFactory<String, Proposal> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
-    public ProducerFactory<String, Participant> producerFactoryParticipant() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
-    public ProducerFactory<String, Comment> producerFactoryComment() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://localhost:9092");
@@ -52,14 +35,22 @@ public class KafkaProducerFactory {
     }
 
     @Bean
-    public KafkaTemplate<String, Proposal> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public ProducerFactory<String, String> producerFactoryString() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, Participant> kafkaTemplateParti() { return new KafkaTemplate<>(producerFactoryParticipant()); }
+    public ProducerFactory<String, Participant> producerFactoryParticipant() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
 
     @Bean
-    public KafkaTemplate<String, Comment> kafkaTemplateComment() { return new KafkaTemplate<>
-            (producerFactoryComment()); }
+    public KafkaTemplate<String, String> kafkaTemplateString() {
+        return new KafkaTemplate<>(producerFactoryString());
+    }
+
+    @Bean(name = "participantTemplate")
+    public KafkaTemplate<String, Participant> kafkaTemplateParticipant() {
+        return new KafkaTemplate<>(producerFactoryParticipant());
+    }
 }
