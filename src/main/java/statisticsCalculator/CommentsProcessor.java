@@ -24,9 +24,6 @@ public class CommentsProcessor{
         amount=dat.countComments();
     }
 
-    public void update(Comment data){
-        amount++;
-    }
 
     public Long getAmount() {
         return amount;
