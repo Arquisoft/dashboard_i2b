@@ -39,15 +39,15 @@ public class KafkaTest {
             , "More efficient traffic lights"
             , "New hospital near Corredoria"};
 
-    @After
+    /*@After
     public void tearDown() throws Exception {
         database.reset();
-    }
+    }*/
 
-    @Before
+    /*@Before
     public void setUp() throws Exception {
         database.reset();
-    }
+    }*/
 
     @Test
     public void test() throws InterruptedException {

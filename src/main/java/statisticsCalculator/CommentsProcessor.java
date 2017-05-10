@@ -19,9 +19,10 @@ public class CommentsProcessor{
     private Long amount;
 
     @Autowired
-    public CommentsProcessor( Database dat){
+    public CommentsProcessor( Database dat, ProposalsProcessor propPorc){
         this.dat=dat;
         amount=dat.countComments();
+        this.propPorc=propPorc;
     }
 
 

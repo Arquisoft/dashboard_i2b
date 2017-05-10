@@ -5,6 +5,7 @@ import dbmanagement.Agrupations.ProposalCommented;
 import domain.Comment;
 import domain.Participant;
 import domain.Proposal;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class DatabaseImpl implements Database {
 
     @Override
     public Proposal findProposal(String id) {
-        return proposalRepo.findOne(id);
+        return proposalRepo.findOne(new ObjectId(id));
     }
 
     @Override
@@ -93,7 +94,7 @@ public class DatabaseImpl implements Database {
 
     @Override
     public Long countComments() {
-        return commentsRepo.count();
+        return proposalRepo.countByComments();
     }
 
 

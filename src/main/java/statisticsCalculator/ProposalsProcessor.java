@@ -41,7 +41,7 @@ public class ProposalsProcessor{
 
     public void updateCreate(String data){
         String[] elements = data.split(":");
-        String id = elements[1].replace("}", "").replace("\"", "");
+        String id = elements[1].replace("}", "").replace("\"", "").trim();
         Proposal prop = dat.findProposal(id);
         amount++;
         updateTopVotes(prop);
@@ -50,17 +50,22 @@ public class ProposalsProcessor{
 
     public void updateVote(String data){
         String[]  parsedData = data.replaceAll("\\{","").replaceAll("}","").split(":");
-        String id = parsedData[0].substring(2);
+        String id = parsedData[1].replaceAll("\"", "").trim();
         Proposal prop = dat.findProposal(id);
         updateTopVotes(prop);
     }
 
     private void updateTopVotes(Proposal data) {
-        int position =(int) (topVotes.size() - topVotes.stream().filter(element-> element.getVotes()<data.getVotes()).count());
-        if(position<5) {
-            topVotes.add(position, data);
-            if(topVotes.size()>=6)
-                topVotes.remove(topVotes.size() - 1); //Take out the last one
+        Proposal inside = topVotes.stream().filter(e -> e.getTitle().equals(data.getTitle())).findFirst().orElse(null);
+        if (inside != null) {
+             inside.setVotes(data.getVotes());
+        } else  {
+            int position =(int) (topVotes.size() - topVotes.stream().filter(element-> element.getVotes()<data.getVotes()).count());
+            if(position<5) {
+                topVotes.add(position, data);
+                if(topVotes.size()>=6)
+                    topVotes.remove(topVotes.size() - 1); //Take out the last one
+            }
         }
     }
 
