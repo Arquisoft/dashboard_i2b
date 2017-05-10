@@ -6,6 +6,7 @@ import domain.Proposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,8 @@ import java.util.List;
  */
 @Service
 public class ProposalsProcessor{
+
+    public static boolean TESTING = false;
 
     @Autowired
     private Database dat;
@@ -26,7 +29,8 @@ public class ProposalsProcessor{
         this.dat = dat;
         amount = dat.countProposals();
         topVotes = dat.findTop5ProposalsByVotes();
-        topCommented = dat.findTop5MostCommentedProposal();
+        topCommented = new ArrayList<>();
+        updateTopCommented();
     }
 
     public Long getAmount() {
@@ -70,7 +74,7 @@ public class ProposalsProcessor{
     }
 
     protected void updateTopCommented(){
-        topCommented = dat.findTop5MostCommentedProposal();
+        //topCommented = dat.findTop5MostCommentedProposal();
     }
 
 }

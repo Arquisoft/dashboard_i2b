@@ -9,6 +9,7 @@ import domain.Comment;
 import domain.Proposal;
 import kafka_random_producer.KafkaTester;
 import main.Application;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
 import selenium.FirefoxDriverBean;
+import statisticsCalculator.ProposalsProcessor;
 
 import java.util.Date;
 import java.util.List;
@@ -52,7 +54,6 @@ public class UpdateSteps {
 
     private String baseURL = "http://localhost:8090";
 
-
     /**
      * We have a title for each counter (Proposals, Comments, Participants), we'll use this to find it, they're as
      * h4
@@ -60,6 +61,7 @@ public class UpdateSteps {
      * @return The span under the h4 web element if found, else it's going to fail the tests if it doesn't find it
      */
     private WebElement findTitleCounter(String title){
+
         String spanInTitleXpath = "//h4[contains(text(), '%s')]//span";
         WebElement element = driver.findElement(
                 By.xpath(String.format(spanInTitleXpath, title)));
