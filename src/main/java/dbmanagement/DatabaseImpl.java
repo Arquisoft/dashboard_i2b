@@ -94,7 +94,9 @@ public class DatabaseImpl implements Database {
 
     @Override
     public Long countComments() {
-        return proposalRepo.countByComments();
+        return proposalRepo.findAll().stream()
+                .map(p -> (long) p.getComments().size())
+                .reduce((long) 0, Long::sum);
     }
 
 

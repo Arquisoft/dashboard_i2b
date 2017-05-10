@@ -38,4 +38,5 @@ public class ProposalsRepositoryCustomImpl implements ProposalsRepositoryCustom 
 
         return groupParticipants.getMappedResults();
     }
+
 }
